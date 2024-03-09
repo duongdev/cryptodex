@@ -23,6 +23,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) =>
     return {
       chart: {
         type: 'packedbubble',
+        backgroundColor: 'transparent',
       },
       title: false as any,
       tooltip: false as any,
@@ -74,7 +75,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) =>
               `
             },
             style: {
-              color: 'black',
+              color: 'white',
               textOutline: 'none',
               fontWeight: 'normal',
               textAlign: 'center',
@@ -101,7 +102,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) =>
       <HighchartsReact
         highcharts={Highcharts}
         options={options}
-        containerProps={{ style: { height: '100%' } }}
+        containerProps={{ style: { height: '100%'} }}
       />
     </div>
   )

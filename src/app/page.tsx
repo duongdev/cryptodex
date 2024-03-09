@@ -11,10 +11,13 @@ export default function Home() {
   const cryptos = take(orderBy(cryptoData, 'rank', 'asc'), TAKE)
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-background pb-8">
+    <div className="relative flex min-h-screen flex-col bg-background">
       <Header />
-      <CryptoBubbles cryptos={cryptos} className="h-[calc(100dvh-56px)]" />
-      <div className='container '>
+      <CryptoBubbles
+        cryptos={cryptos}
+        className="h-[calc(100dvh-56px)] bg-slate-900"
+      />
+      <div className="container py-6">
         <CryptoDataTable columns={columns} data={cryptos} />
       </div>
     </div>
