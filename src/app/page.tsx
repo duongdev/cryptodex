@@ -1,13 +1,16 @@
-import { last, takeRight } from 'lodash-es'
+import { takeRight } from 'lodash-es'
 import { CryptoBubbles } from './_components/crypto-bubbles'
 import cryptoData from './_mocks_/crypto.json'
+import { Header } from './_components/header'
 
 export default function Home() {
-  const first100Crypto = cryptoData.slice(0, 100)
   return (
-    <div>
-      crypto: {cryptoData.length}
-      <CryptoBubbles cryptos={takeRight(cryptoData, 100)} />
+    <div className="relative flex min-h-screen flex-col bg-background">
+      <Header />
+      <CryptoBubbles
+        cryptos={takeRight(cryptoData, 100)}
+        className="h-[calc(100dvh-56px)]"
+      />
     </div>
   )
 }

@@ -15,9 +15,10 @@ import { Crypto } from '../types'
 
 export type CryptoBubblesProps = {
   cryptos: Crypto[]
+  className?: string
 }
 
-export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos }) => {
+export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) => {
   const options: Highcharts.Options = useMemo(() => {
     return {
       chart: {
@@ -44,7 +45,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos }) => {
             splitSeries: false,
             gravitationalConstant: 0.01,
             maxSpeed: 0.5,
-            // friction: 0.9,
+            friction: 0.9,
             initialPositionRadius: 100,
             initialPositions: 'circle',
             enableSimulation: true,
@@ -96,7 +97,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos }) => {
   }, [cryptos])
 
   return (
-    <div className="relative h-screen">
+    <div className={className}>
       <HighchartsReact
         highcharts={Highcharts}
         options={options}
