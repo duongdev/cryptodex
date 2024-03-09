@@ -88,7 +88,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) =>
             name: crypto.symbol.toUpperCase(),
             value: Math.round(Math.abs(crypto.performance.d) * 100) / 100,
             valueOrg: Math.round(crypto.performance.d * 100) / 100,
-            color: crypto.performance.d < 0 ? 'red' : 'green',
+            color: crypto.performance.d < 0 ? 'rgb(239, 68, 68)' : 'rgb(34, 197, 94)',
             image: crypto.image,
           })),
         },
