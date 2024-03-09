@@ -22,10 +22,9 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos }) => {
     return {
       chart: {
         type: 'packedbubble',
-        // height: '800px',
       },
-      title: false,
-      tooltip: false,
+      title: false as any,
+      tooltip: false as any,
       legend: {
         enabled: false,
       },
@@ -92,7 +91,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos }) => {
             image: crypto.image,
           })),
         },
-      ],
+      ] as any,
     }
   }, [cryptos])
 
