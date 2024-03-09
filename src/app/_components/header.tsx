@@ -14,7 +14,7 @@ export const Header: FC = () => {
             className="cursor-pointer"
           />
           <div className="ml-1 text-lg font-semibold text-[#4D0BDA]">
-            CryptoDex
+            <b>Crypto</b>Dex
           </div>
         </div>
       </div>
