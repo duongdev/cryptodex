@@ -1,18 +1,17 @@
 'use client'
 
-import { Crypto } from '@/app/types'
+import { CryptoData } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import Image from 'next/image'
 import numeral from 'numeral'
 
-export const columns: ColumnDef<Crypto>[] = [
+export const columns: ColumnDef<CryptoData>[] = [
   {
     header: '',
-    // accessorFn: (row) => ({ rank: row.rank, image: row.image }),
     accessorKey: 'rank',
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
-        <div className="min-w-4 text-right">
+      <div className="flex items-center gap-2 pr-2">
+        <div className="min-w-6 shrink-0 text-right">
           {numeral(row.getValue('rank')).format('0,0')}
         </div>
         <Image
@@ -20,6 +19,7 @@ export const columns: ColumnDef<Crypto>[] = [
           width={32}
           height={32}
           alt={row.original.symbol}
+          className="shrink-0"
         />
       </div>
     ),

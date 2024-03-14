@@ -11,10 +11,10 @@ if (typeof Highcharts === 'object') {
   HC_more(Highcharts)
 }
 
-import { Crypto } from '../types'
+import { CryptoData } from '../../lib/types'
 
 export type CryptoBubblesProps = {
-  cryptos: Crypto[]
+  cryptos: CryptoData[]
   className?: string
 }
 
