@@ -9,7 +9,9 @@ export async function GET(request: Request) {
   const top = parseInt(new URL(request.url).searchParams.get('top') || '100')
 
   const response = await fetch(CRYPTO_DATA_URL)
+  console.log('getCryptoData response', response)
   const data: CryptoData[] = await response.json()
+  console.log('getCryptoData data', data)
 
   const cryptos = orderBy(data, 'rank', 'asc').slice(
     Math.max(0, top - 100),
