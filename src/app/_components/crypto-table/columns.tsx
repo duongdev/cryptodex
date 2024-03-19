@@ -217,7 +217,7 @@ function renderPerformance(value: number) {
   const color = value < 0 ? 'text-red-500' : 'text-green-500'
   return (
     <div className={`text-right ${color}`}>
-      {numeral(value / 100).format('0.00%')}
+      {numeral(value / 100).format('0,0.00%')}
     </div>
   )
 }
