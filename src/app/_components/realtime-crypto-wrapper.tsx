@@ -47,7 +47,7 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
         className="h-[calc(100dvh-56px)] bg-slate-900"
       />
       <div className="container py-6">
-        <CryptoDataTable columns={columns} data={topCryptos} />
+        <CryptoDataTable columns={columns} data={cryptos} />
       </div>
     </>
   )

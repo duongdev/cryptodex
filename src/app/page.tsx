@@ -1,9 +1,6 @@
 import { Header } from './_components/header'
 import { RealtimeCryptoWrapper } from './_components/realtime-crypto-wrapper'
-import { CRYPTO_DATA_URL } from '@/lib/constants'
-import { CryptoData } from '@/lib/types'
 import { getCryptoData } from '@/services/cryptos'
-import { orderBy } from 'lodash-es'
 
 export default async function Home({
   searchParams: { top = '100' },

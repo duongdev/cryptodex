@@ -13,6 +13,7 @@ if (typeof Highcharts === 'object') {
 
 import { CryptoData } from '../../lib/types'
 import { useWindowSize } from 'react-use'
+import numeral from 'numeral'
 
 export type CryptoBubblesProps = {
   cryptos: CryptoData[]
@@ -79,19 +80,20 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
             formatter: function () {
               const point = this.point as any
               // scale font size based on value
-              const size = Math.max(
-                minSize,
-                Math.min(
-                  maxSize,
-                  (point.value / 100) * (maxSize - minSize) + minSize,
-                ),
-              ) * 0.2
+              const size =
+                Math.max(
+                  minSize,
+                  Math.min(
+                    maxSize,
+                    (point.value / 100) * (maxSize - minSize) + minSize,
+                  ),
+                ) * 0.2
               return `
                 <div style="text-align: center; width: 100%; display: grid; place-items: center; margin-bottom: 4px">
                   <img src="${point.image}" width="${size + 10}" height="${size + 10}"/>
                 </div>
                 <div style="font-size: ${size}px">
-                  <b>${point.name}</b><br/>${point.valueOrg}%
+                  <b>${point.name}</b><br/>${numeral(point.orgValue).format(point.orgValue > 100 ? '0.0' : '0.00')}%
                 </div>
               `
             },
@@ -110,7 +112,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
           data: cryptos.map((crypto) => ({
             name: crypto.symbol.toUpperCase(),
             value: Math.round(Math.abs(crypto.performance.d) * 100) / 100,
-            valueOrg: Math.round(crypto.performance.d * 100) / 100,
+            orgValue: Math.round(crypto.performance.d * 100) / 100,
             color:
               crypto.performance.d < 0
                 ? 'rgb(239, 68, 68)'
