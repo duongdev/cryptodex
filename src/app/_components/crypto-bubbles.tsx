@@ -12,13 +12,29 @@ if (typeof Highcharts === 'object') {
 }
 
 import { CryptoData } from '../../lib/types'
+import { useWindowSize } from 'react-use'
 
 export type CryptoBubblesProps = {
   cryptos: CryptoData[]
   className?: string
 }
 
-export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) => {
+export const CryptoBubbles: FC<CryptoBubblesProps> = ({
+  cryptos,
+  className,
+}) => {
+  const { width, height } = useWindowSize()
+
+  const { minSize, maxSize } = useMemo(() => {
+    const s = width * height
+
+    /* For s=1200000, min=50, max=250. Scales the min and max by s */
+    const minSize = Math.sqrt((50 * 50 * s) / 1200000)
+    const maxSize = Math.sqrt((250 * 250 * s) / 1200000)
+
+    return { minSize, maxSize }
+  }, [height, width])
+
   const options: Highcharts.Options = useMemo(() => {
     return {
       chart: {
@@ -38,8 +54,8 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) =>
           draggable: true,
           cursor: 'pointer',
           animation: !true,
-          minSize: '50px',
-          maxSize: '250px',
+          minSize: `${minSize}px`,
+          maxSize: `${maxSize}px`,
           zMin: 0,
           zMax: 100,
           layoutAlgorithm: {
@@ -50,7 +66,6 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) =>
             initialPositionRadius: 100,
             initialPositions: 'circle',
             enableSimulation: true,
-            // bubblePadding: 20
           },
           events: {
             click: function (e) {
@@ -63,8 +78,14 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) =>
             animation: !true,
             formatter: function () {
               const point = this.point as any
-              // scale font size from 10px to 40px based on value
-              const size = (point.value / 100) * 50 + 10
+              // scale font size based on value
+              const size = Math.max(
+                minSize,
+                Math.min(
+                  maxSize,
+                  (point.value / 100) * (maxSize - minSize) + minSize,
+                ),
+              ) * 0.2
               return `
                 <div style="text-align: center; width: 100%; display: grid; place-items: center; margin-bottom: 4px">
                   <img src="${point.image}" width="${size + 10}" height="${size + 10}"/>
@@ -90,20 +111,23 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) =>
             name: crypto.symbol.toUpperCase(),
             value: Math.round(Math.abs(crypto.performance.d) * 100) / 100,
             valueOrg: Math.round(crypto.performance.d * 100) / 100,
-            color: crypto.performance.d < 0 ? 'rgb(239, 68, 68)' : 'rgb(34, 197, 94)',
+            color:
+              crypto.performance.d < 0
+                ? 'rgb(239, 68, 68)'
+                : 'rgb(34, 197, 94)',
             image: crypto.image,
           })),
         },
       ] as any,
     }
-  }, [cryptos])
+  }, [cryptos, maxSize, minSize])
 
   return (
     <div className={className}>
       <HighchartsReact
         highcharts={Highcharts}
         options={options}
-        containerProps={{ style: { height: '100%'} }}
+        containerProps={{ style: { height: '100%' } }}
       />
     </div>
   )
