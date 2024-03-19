@@ -19,7 +19,7 @@ export const columns: ColumnDef<CryptoData>[] = [
           width={32}
           height={32}
           alt={row.original.symbol}
-          className="shrink-0"
+          className="shrink-0 w-8 h-8"
         />
       </div>
     ),

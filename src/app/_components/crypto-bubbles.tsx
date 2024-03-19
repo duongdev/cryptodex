@@ -85,6 +85,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({ cryptos, className }) =>
       },
       series: [
         {
+          keys: ['name'],
           data: cryptos.map((crypto) => ({
             name: crypto.symbol.toUpperCase(),
             value: Math.round(Math.abs(crypto.performance.d) * 100) / 100,

@@ -2,7 +2,6 @@
 
 import { REFRESH_INTERVAL } from '@/lib/constants'
 import { CryptoData } from '@/lib/types'
-import { getCryptoData } from '@/services/cryptos'
 import { FC, useEffect, useState } from 'react'
 import { CryptoBubbles } from './crypto-bubbles'
 import { CryptoDataTable } from './crypto-table/crypto-table'
@@ -12,23 +11,30 @@ import { Progress } from '@/components/ui/progress'
 export type RealtimeCryptoWrapperProps = {
   initialCryptos: CryptoData[]
   top: number
+  getCryptoData: () => Promise<CryptoData[]>
 }
 
 export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
   initialCryptos,
   top,
+  getCryptoData
 }) => {
   const [cryptos, setCryptos] = useState<CryptoData[]>(initialCryptos)
   const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now())
 
+  const topCryptos = cryptos.slice(
+    Math.max(0, top - 100),
+    top,
+  )
+
   useEffect(() => {
     const interval = setInterval(async () => {
       setLastUpdatedAt(Date.now())
-      getCryptoData(top).then(setCryptos)
+      getCryptoData().then(setCryptos)
     }, REFRESH_INTERVAL)
 
     return () => clearInterval(interval)
-  }, [top])
+  }, [getCryptoData])
 
   return (
     <>
@@ -37,11 +43,11 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
         updateInterval={REFRESH_INTERVAL}
       />
       <CryptoBubbles
-        cryptos={cryptos}
+        cryptos={topCryptos}
         className="h-[calc(100dvh-56px)] bg-slate-900"
       />
       <div className="container py-6">
-        <CryptoDataTable columns={columns} data={cryptos} />
+        <CryptoDataTable columns={columns} data={topCryptos} />
       </div>
     </>
   )
