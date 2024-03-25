@@ -1,13 +1,14 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Exchange } from '@/lib/exchanges'
+import { EXCHANGE_CONFIG, Exchange } from '@/lib/exchanges'
 import { CryptoData } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
 import Image from 'next/image'
 import numeral from 'numeral'
 import { ExchangeLogo } from '../exchange-logo'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 export const columns: ColumnDef<CryptoData>[] = [
   {
@@ -217,11 +218,13 @@ export const columns: ColumnDef<CryptoData>[] = [
     accessorKey: 'exchanges',
     header: 'Exchanges',
     cell: ({ getValue }) => (
-      <div className="flex items-center gap-2 w-64">
-        {getValue<Exchange[]>().map((exc) => (
-          <ExchangeItem key={exc} exchange={exc} />
-        ))}
-      </div>
+      <TooltipProvider>
+        <div className="flex w-64 items-center gap-2">
+          {getValue<Exchange[]>().map((exc) => (
+            <ExchangeItem key={exc} exchange={exc} />
+          ))}
+        </div>
+      </TooltipProvider>
     ),
   },
 ]
@@ -236,5 +239,16 @@ function renderPerformance(value: number) {
 }
 
 function ExchangeItem({ exchange }: { exchange: Exchange }) {
-  return <ExchangeLogo exchange={exchange} size={24} />
+  const exchangeConfig = EXCHANGE_CONFIG[exchange]
+  
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <ExchangeLogo exchange={exchange} size={24} />
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>{exchangeConfig.name}</p>
+      </TooltipContent>
+    </Tooltip>
+  )
 }
