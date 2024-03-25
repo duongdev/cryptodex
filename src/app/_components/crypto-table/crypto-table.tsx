@@ -36,12 +36,6 @@ import { useDebounce } from 'react-use'
 
 const DEBOUNCE_DELAY = 300
 
-const CURRENCY_RATE = {
-  USD: 1,
-  IDR: 1 / 15786.5,
-  BTC: 66801,
-}
-
 interface CryptoDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -55,9 +49,14 @@ export function CryptoDataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [searchText, setSearchText] = useState('')
   const [selectedExchanges, setSelectedExchanges] = useState<string[]>([])
-  const [selectedCurrency, setSelectedCurrency] =
-    useState<Currency>('USD')
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency>('USD')
   const [cryptoData, setCryptoData] = useState(data)
+
+  const CURRENCY_RATE = {
+    USD: 1,
+    IDR: 1 / 15786.5,
+    BTC: (data[0] as CryptoData).price,
+  }
 
   useDebounce(
     () => {
