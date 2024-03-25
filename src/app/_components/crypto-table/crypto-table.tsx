@@ -79,7 +79,7 @@ export function CryptoDataTable<TData, TValue>({
   }
 
   return (
-    <div id="table-wrapper" className="-mt-16 pt-16">
+    <div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

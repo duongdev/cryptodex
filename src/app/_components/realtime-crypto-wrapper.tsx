@@ -7,6 +7,7 @@ import { CryptoBubbles } from './crypto-bubbles'
 import { CryptoDataTable } from './crypto-table/crypto-table'
 import { columns } from './crypto-table/columns'
 import { Progress } from '@/components/ui/progress'
+import { TableToolbar } from './crypto-table/table-toolbar'
 
 export type RealtimeCryptoWrapperProps = {
   initialCryptos: CryptoData[]
@@ -17,15 +18,12 @@ export type RealtimeCryptoWrapperProps = {
 export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
   initialCryptos,
   top,
-  getCryptoData
+  getCryptoData,
 }) => {
   const [cryptos, setCryptos] = useState<CryptoData[]>(initialCryptos)
   const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now())
 
-  const topCryptos = cryptos.slice(
-    Math.max(0, top - 100),
-    top,
-  )
+  const topCryptos = cryptos.slice(Math.max(0, top - 100), top)
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -46,7 +44,11 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
         cryptos={topCryptos}
         className="h-[calc(100dvh-56px)] bg-slate-900"
       />
-      <div className="container py-6">
+      <div
+        id="table-wrapper"
+        className="container -mt-10 flex flex-col gap-4 pt-16 pb-8"
+      >
+        <TableToolbar />
         <CryptoDataTable columns={columns} data={cryptos} />
       </div>
     </>
