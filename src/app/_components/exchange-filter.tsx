@@ -51,8 +51,8 @@ export function ExchangeFilter<T>({
           size="sm"
           variant="outline"
           className={cn(
-            'h-10 border',
-            // selected?.length > 0 ? 'border' : 'border-dashed',
+            'h-10 border font-normal',
+            selected?.length && 'font-bold',
             className,
           )}
         >
@@ -89,7 +89,7 @@ export function ExchangeFilter<T>({
       <PopoverContent align="start" className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder={title} />
-          <CommandList>
+          <CommandList className="max–h-[400px]">
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {

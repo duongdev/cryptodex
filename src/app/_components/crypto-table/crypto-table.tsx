@@ -9,6 +9,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import Fuse from 'fuse.js'
 
 import {
   Table,
@@ -28,8 +29,18 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
-import { Button } from '@/components/ui/button'
 import { CRYPTO_TABLE_SIZE } from '@/lib/constants'
+import { TableToolbar } from './table-toolbar'
+import { CryptoData, Currency } from '@/lib/types'
+import { useDebounce } from 'react-use'
+
+const DEBOUNCE_DELAY = 300
+
+const CURRENCY_RATE = {
+  USD: 1,
+  IDR: 1 / 15786.5,
+  BTC: 66801,
+}
 
 interface CryptoDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -42,10 +53,46 @@ export function CryptoDataTable<TData, TValue>({
 }: CryptoDataTableProps<TData, TValue>) {
   const [pageIndex, setPageIndex] = useState(0)
   const [sorting, setSorting] = useState<SortingState>([])
+  const [searchText, setSearchText] = useState('')
+  const [selectedExchanges, setSelectedExchanges] = useState<string[]>([])
+  const [selectedCurrency, setSelectedCurrency] =
+    useState<Currency>('USD')
+  const [cryptoData, setCryptoData] = useState(data)
+
+  useDebounce(
+    () => {
+      const filteredByExchanges = selectedExchanges.length
+        ? data.filter((d) =>
+            (d as CryptoData).exchanges?.some((e) =>
+              selectedExchanges.includes(e),
+            ),
+          )
+        : data
+
+      if (!searchText) {
+        setCryptoData(filteredByExchanges)
+        setPageIndex(0)
+      } else {
+        const fuse = new Fuse(filteredByExchanges, {
+          includeScore: false,
+          keys: ['name', 'symbol'],
+        })
+
+        setCryptoData(fuse.search(searchText).map((r) => r.item))
+        setPageIndex(0)
+      }
+    },
+    DEBOUNCE_DELAY,
+    [data, searchText, selectedExchanges],
+  )
 
   const table = useReactTable({
-    data,
+    data: cryptoData,
     columns,
+    meta: {
+      currency: selectedCurrency,
+      currencyRate: CURRENCY_RATE[selectedCurrency],
+    },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -79,7 +126,15 @@ export function CryptoDataTable<TData, TValue>({
   }
 
   return (
-    <div>
+    <>
+      <TableToolbar
+        searchText={searchText}
+        onSearchTextChange={setSearchText}
+        selectedExchanges={selectedExchanges}
+        onSelectedExchangesChange={setSelectedExchanges}
+        selectedCurrency={selectedCurrency}
+        onSelectedCurrencyChange={setSelectedCurrency}
+      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -141,7 +196,7 @@ export function CryptoDataTable<TData, TValue>({
           className="m-4"
         />
       </div>
-    </div>
+    </>
   )
 }
 

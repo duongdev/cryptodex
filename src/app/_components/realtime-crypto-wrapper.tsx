@@ -46,9 +46,8 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
       />
       <div
         id="table-wrapper"
-        className="container -mt-10 flex flex-col gap-4 pt-16 pb-8"
+        className="container -mt-10 flex flex-col gap-4 pb-8 pt-16"
       >
-        <TableToolbar />
         <CryptoDataTable columns={columns} data={cryptos} />
       </div>
     </>

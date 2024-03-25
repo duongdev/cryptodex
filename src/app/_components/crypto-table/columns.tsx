@@ -2,13 +2,24 @@
 
 import { Button } from '@/components/ui/button'
 import { EXCHANGE_CONFIG, Exchange } from '@/lib/exchanges'
-import { CryptoData } from '@/lib/types'
+import { CryptoData, Currency } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
 import Image from 'next/image'
 import numeral from 'numeral'
 import { ExchangeLogo } from '../exchange-logo'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+
+const CURRENCY_SYMBOLS = {
+  USD: '$',
+  IDR: 'Rp ',
+  BTC: '₿',
+}
 
 export const columns: ColumnDef<CryptoData>[] = [
   {
@@ -72,10 +83,18 @@ export const columns: ColumnDef<CryptoData>[] = [
     },
     accessorKey: 'price',
     // accessorFn: (row) => numeral((row.price)).format('$0,0.0000'),
-    cell: ({ getValue }) =>
-      getValue<number>() < 0.005
-        ? `$${getValue<number>()}`
-        : numeral(getValue<number>()).format('$0,0.0000'),
+    cell: ({ getValue, table }) => (
+      <div className="whitespace-nowrap">
+        {getValue<number>() < 0.005
+          ? `${(CURRENCY_SYMBOLS as any)[getTableMeta(table).currency]}${getValue<number>() / getTableMeta(table).currencyRate}`
+          : getConvertedAmount({
+              value: getValue<number>(),
+              currency: getTableMeta(table).currency,
+              rate: getTableMeta(table).currencyRate,
+              format: '0,0.0000',
+            })}
+      </div>
+    ),
   },
   {
     header: ({ column }) => {
@@ -91,7 +110,17 @@ export const columns: ColumnDef<CryptoData>[] = [
       )
     },
     accessorKey: 'marketCap',
-    cell: ({ getValue }) => numeral(getValue()).format('$0.00a').toUpperCase(),
+    // cell: ({ getValue }) => numeral(getValue()).format('$0.00a').toUpperCase(),
+    cell: ({ getValue, table }) => (
+      <div className="whitespace-nowrap">
+        {getConvertedAmount({
+          value: getValue<number>(),
+          currency: getTableMeta(table).currency,
+          rate: getTableMeta(table).currencyRate,
+          format: '0.00a',
+        })}
+      </div>
+    ),
   },
   {
     id: 'volume',
@@ -110,11 +139,14 @@ export const columns: ColumnDef<CryptoData>[] = [
       )
     },
     accessorKey: 'volume',
-    cell: ({ getValue }) => (
-      <div className="text-right">
-        {numeral(getValue() as string)
-          .format('$0.00a')
-          .toUpperCase()}
+    cell: ({ getValue, table }) => (
+      <div className="whitespace-nowrap text-right">
+        {getConvertedAmount({
+          value: getValue() as number,
+          format: '0.00a',
+          rate: getTableMeta(table).currencyRate,
+          currency: getTableMeta(table).currency,
+        })}
       </div>
     ),
   },
@@ -229,6 +261,28 @@ export const columns: ColumnDef<CryptoData>[] = [
   },
 ]
 
+const getTableMeta = (table: any) => ({
+  currency:
+    (table.options.meta.currency as Currency) || 'USD',
+  currencyRate: (table.options.meta.currencyRate as number) || 1,
+})
+
+function getConvertedAmount({
+  value,
+  currency = 'USD',
+  rate = 1,
+  format = '0,0.00',
+}: {
+  value: number
+  currency?: Currency
+  rate?: number
+  format?: string
+}) {
+  const convertedValue = value / rate
+  const formattedValue = numeral(convertedValue).format(format).toUpperCase()
+  return `${CURRENCY_SYMBOLS[currency]}${formattedValue}`
+}
+
 function renderPerformance(value: number) {
   const color = value < 0 ? 'text-red-500' : 'text-green-500'
   return (
@@ -240,7 +294,7 @@ function renderPerformance(value: number) {
 
 function ExchangeItem({ exchange }: { exchange: Exchange }) {
   const exchangeConfig = EXCHANGE_CONFIG[exchange]
-  
+
   return (
     <Tooltip>
       <TooltipTrigger>
