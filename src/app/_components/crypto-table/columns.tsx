@@ -1,11 +1,13 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { Exchange } from '@/lib/exchanges'
 import { CryptoData } from '@/lib/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
 import Image from 'next/image'
 import numeral from 'numeral'
+import { ExchangeLogo } from '../exchange-logo'
 
 export const columns: ColumnDef<CryptoData>[] = [
   {
@@ -26,7 +28,7 @@ export const columns: ColumnDef<CryptoData>[] = [
     accessorKey: 'rank',
     cell: ({ row }) => (
       <div className="flex items-center justify-end gap-2">
-        <div className="min-w-6 shrink-0 text-right">
+        <div className="min-w-20 shrink-0 text-right">
           {numeral(row.getValue('rank')).format('0,0')}
         </div>
         <Image
@@ -136,7 +138,7 @@ export const columns: ColumnDef<CryptoData>[] = [
   },
   {
     id: 'day',
-    
+
     header: ({ column }) => {
       return (
         <div className="text-right">
@@ -211,6 +213,17 @@ export const columns: ColumnDef<CryptoData>[] = [
     accessorKey: 'performance.y',
     cell: ({ getValue }) => renderPerformance(getValue() as number),
   },
+  {
+    accessorKey: 'exchanges',
+    header: 'Exchanges',
+    cell: ({ getValue }) => (
+      <div className="flex items-center gap-2 w-64">
+        {getValue<Exchange[]>().map((exc) => (
+          <ExchangeItem key={exc} exchange={exc} />
+        ))}
+      </div>
+    ),
+  },
 ]
 
 function renderPerformance(value: number) {
@@ -220,4 +233,8 @@ function renderPerformance(value: number) {
       {numeral(value / 100).format('0,0.00%')}
     </div>
   )
+}
+
+function ExchangeItem({ exchange }: { exchange: Exchange }) {
+  return <ExchangeLogo exchange={exchange} size={24} />
 }
