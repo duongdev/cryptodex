@@ -2,6 +2,8 @@ import { Header } from './_components/header'
 import { RealtimeCryptoWrapper } from './_components/realtime-crypto-wrapper'
 import { getCryptoData } from '@/services/cryptos'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Home({
   searchParams: { top = '100' },
 }: {
