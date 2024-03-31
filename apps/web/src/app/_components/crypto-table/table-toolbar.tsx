@@ -3,9 +3,11 @@
 import type { FC } from 'react'
 import { useRef } from 'react'
 
+import { useAtom } from 'jotai'
 import { Filter, SearchIcon, X } from 'lucide-react'
 import Image from 'next/image'
 
+import { currencyAtom } from '@/atoms/crypto'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -17,8 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import type { Exchange } from '@/lib/exchanges'
 import { EXCHANGE_CONFIG } from '@/lib/exchanges'
-import type { Currency } from '@/lib/types'
+import type { ANY } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 import { ExchangeFilter } from '../exchange-filter'
@@ -27,22 +30,15 @@ export type TableToolbarProps = {
   className?: string
   searchText: string
   onSearchTextChange: (text: string) => void
-  selectedExchanges: string[]
-  onSelectedExchangesChange: (exchanges: string[]) => void
-  selectedCurrency: Currency
-  onSelectedCurrencyChange: (currency: Currency) => void
 }
 
 export const TableToolbar: FC<TableToolbarProps> = ({
   className,
   onSearchTextChange,
-  onSelectedCurrencyChange,
-  onSelectedExchangesChange,
   searchText,
-  selectedCurrency,
-  selectedExchanges,
 }) => {
   const searchInputRef = useRef<HTMLInputElement>(null)
+  const [selectedCurrency, onSelectedCurrencyChange] = useAtom(currencyAtom)
 
   return (
     <div className={cn('flex gap-3', className)}>
@@ -78,13 +74,14 @@ export const TableToolbar: FC<TableToolbarProps> = ({
           disabled={!true}
           icon={<Filter className="mr-2 h-4 w-4" />}
           options={exchangeOptions}
-          selected={selectedExchanges}
           title="Exchanges"
-          onSelect={onSelectedExchangesChange}
         />
       </div>
 
-      <Select value={selectedCurrency} onValueChange={onSelectedCurrencyChange}>
+      <Select
+        value={selectedCurrency}
+        onValueChange={onSelectedCurrencyChange as ANY}
+      >
         <SelectTrigger className="w-[80px]">
           <SelectValue placeholder="Select currency" />
         </SelectTrigger>
@@ -104,7 +101,7 @@ export const TableToolbar: FC<TableToolbarProps> = ({
 // eslint-disable-next-line react-refresh/only-export-components
 export const exchangeOptions = Object.entries(EXCHANGE_CONFIG).map(
   ([key, value]) => ({
-    value: key,
+    value: key as Exchange,
     label: value.name,
     icon: ({ className }: { className?: string }) => (
       <Image

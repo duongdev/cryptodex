@@ -12,8 +12,10 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import Fuse from 'fuse.js'
+import { useAtom } from 'jotai'
 import { useDebounce } from 'react-use'
 
+import { currencyAtom, exchangeFilterAtom } from '@/atoms/crypto'
 import {
   Pagination,
   PaginationContent,
@@ -32,7 +34,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { CRYPTO_TABLE_SIZE } from '@/lib/constants'
-import type { CryptoData, Currency } from '@/lib/types'
+import type { CryptoData } from '@/lib/types'
 
 import { TableToolbar } from './table-toolbar'
 
@@ -50,8 +52,8 @@ export function CryptoDataTable<TData, TValue>({
   const [pageIndex, setPageIndex] = useState(0)
   const [sorting, setSorting] = useState<SortingState>([])
   const [searchText, setSearchText] = useState('')
-  const [selectedExchanges, setSelectedExchanges] = useState<string[]>([])
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency>('USD')
+  const [selectedExchanges] = useAtom(exchangeFilterAtom)
+  const [selectedCurrency] = useAtom(currencyAtom)
   const [cryptoData, setCryptoData] = useState(data)
 
   const CURRENCY_RATE = {
@@ -130,11 +132,7 @@ export function CryptoDataTable<TData, TValue>({
     <>
       <TableToolbar
         searchText={searchText}
-        selectedCurrency={selectedCurrency}
-        selectedExchanges={selectedExchanges}
         onSearchTextChange={setSearchText}
-        onSelectedCurrencyChange={setSelectedCurrency}
-        onSelectedExchangesChange={setSelectedExchanges}
       />
       <div className="rounded-md border">
         <Table>

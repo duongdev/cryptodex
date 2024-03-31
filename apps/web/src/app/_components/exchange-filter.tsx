@@ -1,7 +1,11 @@
+'use client'
+
 import * as React from 'react'
 
+import { useAtom } from 'jotai'
 import { CheckIcon, PlusCircleIcon } from 'lucide-react'
 
+import { exchangeFilterAtom } from '@/atoms/crypto'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -19,31 +23,32 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
+import type { Exchange } from '@/lib/exchanges'
 import { cn } from '@/lib/utils'
 
-interface ExchangeFilterProps<T> {
+interface ExchangeFilterProps {
   title?: string
   options: {
     label: string
-    value: T
+    value: Exchange
     icon?: React.ComponentType<{ className?: string }>
   }[]
-  selected?: T[]
-  onSelect?: (values: T[]) => void
   className?: string
   disabled?: boolean
   icon?: React.ReactNode | false
 }
 
-export function ExchangeFilter<T>({
+export function ExchangeFilter({
   title,
   options,
-  selected = [],
-  onSelect,
+  // selected = [],
+  // onSelect,
   className,
   disabled,
   icon,
-}: ExchangeFilterProps<T>) {
+}: ExchangeFilterProps) {
+  const [selected, onSelect] = useAtom(exchangeFilterAtom)
+
   return (
     <Popover>
       <PopoverTrigger asChild>
