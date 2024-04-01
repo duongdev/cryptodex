@@ -7,15 +7,14 @@
   },
   "options": {},
   "attributes": {
-    "href": {
-      "type": "string"
-    },
     "label_en": {
       "type": "string"
     },
-    "open_new_tab": {
-      "type": "boolean",
-      "default": false
+    "link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.link",
+      "required": true
     }
   }
 }

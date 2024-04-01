@@ -1,27 +1,32 @@
 {
   "kind": "singleType",
-  "collectionName": "footer_navs",
+  "collectionName": "site_configs",
   "info": {
-    "singularName": "footer-nav",
-    "pluralName": "footer-navs",
-    "displayName": "FooterNav"
+    "singularName": "site-config",
+    "pluralName": "site-configs",
+    "displayName": "SiteConfig"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "col_1_items": {
+    "header_nav": {
       "type": "component",
       "repeatable": true,
       "component": "navigation.app-bar-nav"
     },
-    "col_2_items": {
+    "footer_nav_col_1": {
       "type": "component",
       "repeatable": true,
       "component": "navigation.app-bar-nav"
     },
-    "col_3_items": {
+    "footer_nav_col_2": {
+      "type": "component",
+      "repeatable": true,
+      "component": "navigation.app-bar-nav"
+    },
+    "footer_nav_col_3": {
       "type": "component",
       "repeatable": true,
       "component": "navigation.app-bar-nav"

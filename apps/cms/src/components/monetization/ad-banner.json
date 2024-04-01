@@ -2,27 +2,27 @@
   "collectionName": "components_monetization_ad_banners",
   "info": {
     "displayName": "AdBanner",
-    "icon": "crown"
+    "icon": "crown",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "title_en": {
       "type": "string"
     },
-    "url": {
-      "type": "string"
-    },
-    "open_new_tab": {
-      "type": "boolean",
-      "default": true
-    },
     "medium": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "videos"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.link"
     }
   }
 }
