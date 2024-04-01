@@ -9,11 +9,17 @@
     "packages/*"
   ],
   "scripts": {
+    "build:cms": "turbo run build --filter={apps/cms}",
+    "dev:cms": "turbo run dev --filter={apps/cms}",
+    "start:cms": "turbo run start --filter={apps/cms}",
     "clean": "rm -rf node_modules {packages,apps}/*/node_modules bun.lockb {packages,apps}/*/bun.lockb"
   },
   "devDependencies": {
     "@cryptodex/eslint-config": "workspace:*",
     "ajv": "^8.12.0",
     "typescript": "5"
+  },
+  "dependencies": {
+    "turbo": "^1.13.0"
   }
 }
