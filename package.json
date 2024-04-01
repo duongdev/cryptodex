@@ -13,7 +13,6 @@
   },
   "devDependencies": {
     "@cryptodex/eslint-config": "workspace:*",
-    "@types/bun": "latest",
     "ajv": "^8.12.0",
     "typescript": "5"
   }
