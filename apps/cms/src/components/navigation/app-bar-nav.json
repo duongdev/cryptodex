@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_navigation_app_bar_navs",
+  "info": {
+    "displayName": "NavItem",
+    "icon": "earth",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "href": {
+      "type": "string"
+    },
+    "label_en": {
+      "type": "string"
+    },
+    "open_new_tab": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

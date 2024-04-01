@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_monetization_ad_banners",
+  "info": {
+    "displayName": "AdBanner",
+    "icon": "crown"
+  },
+  "options": {},
+  "attributes": {
+    "title_en": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "open_new_tab": {
+      "type": "boolean",
+      "default": true
+    },
+    "medium": {
+      "allowedTypes": [
+        "images",
+        "videos"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

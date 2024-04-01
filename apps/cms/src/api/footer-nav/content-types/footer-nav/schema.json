@@ -1,0 +1,30 @@
+{
+  "kind": "singleType",
+  "collectionName": "footer_navs",
+  "info": {
+    "singularName": "footer-nav",
+    "pluralName": "footer-navs",
+    "displayName": "FooterNav"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "col_1_items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "navigation.app-bar-nav"
+    },
+    "col_2_items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "navigation.app-bar-nav"
+    },
+    "col_3_items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "navigation.app-bar-nav"
+    }
+  }
+}
