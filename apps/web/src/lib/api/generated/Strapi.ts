@@ -5,18 +5,14 @@
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { AxiosHttpRequest } from './core/AxiosHttpRequest';
+import { ExchangeService } from './services/ExchangeService';
 import { PageService } from './services/PageService';
 import { SiteConfigService } from './services/SiteConfigService';
-import { UploadFileService } from './services/UploadFileService';
-import { UsersPermissionsAuthService } from './services/UsersPermissionsAuthService';
-import { UsersPermissionsUsersRolesService } from './services/UsersPermissionsUsersRolesService';
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class Strapi {
+  public readonly exchange: ExchangeService;
   public readonly page: PageService;
   public readonly siteConfig: SiteConfigService;
-  public readonly uploadFile: UploadFileService;
-  public readonly usersPermissionsAuth: UsersPermissionsAuthService;
-  public readonly usersPermissionsUsersRoles: UsersPermissionsUsersRolesService;
   public readonly request: BaseHttpRequest;
   constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = AxiosHttpRequest) {
     this.request = new HttpRequest({
@@ -30,11 +26,9 @@ export class Strapi {
       HEADERS: config?.HEADERS,
       ENCODE_PATH: config?.ENCODE_PATH,
     });
+    this.exchange = new ExchangeService(this.request);
     this.page = new PageService(this.request);
     this.siteConfig = new SiteConfigService(this.request);
-    this.uploadFile = new UploadFileService(this.request);
-    this.usersPermissionsAuth = new UsersPermissionsAuthService(this.request);
-    this.usersPermissionsUsersRoles = new UsersPermissionsUsersRolesService(this.request);
   }
 }
 

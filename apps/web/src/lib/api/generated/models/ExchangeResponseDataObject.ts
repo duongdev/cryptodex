@@ -2,6 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UploadFile = {
+import type { Exchange } from './Exchange';
+export type ExchangeResponseDataObject = {
+  id?: number;
+  attributes?: Exchange;
 };
 

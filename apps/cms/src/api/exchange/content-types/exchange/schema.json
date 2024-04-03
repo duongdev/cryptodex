@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exchanges",
+  "info": {
+    "singularName": "exchange",
+    "pluralName": "exchanges",
+    "displayName": "Exchange",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "coins": {
+      "type": "json",
+      "required": true
+    },
+    "website_link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.link"
+    },
+    "appstore_link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.link"
+    },
+    "playstore_link": {
+      "type": "component",
+      "repeatable": false,
+      "component": "common.link"
+    },
+    "note_pros": {
+      "type": "blocks"
+    },
+    "note_cons": {
+      "type": "blocks"
+    }
+  }
+}
