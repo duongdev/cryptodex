@@ -10,7 +10,7 @@ export default ({ env }) => ({
   documentation: {
     enabled: true,
     config: {
-      openapi: '3.0.0',
+      openapi: '3.1.0',
       info: {
         version: '1.0.0',
         title: 'DOCUMENTATION',
@@ -28,7 +28,7 @@ export default ({ env }) => ({
       },
       'x-strapi-config': {
         // Leave empty to ignore plugins during generation
-        plugins: [ 'upload', 'users-permissions'],
+        plugins: [],
         path: '/documentation',
       },
       servers: [{ url: 'http://localhost:1337/api', description: 'Development server' }],
@@ -38,5 +38,10 @@ export default ({ env }) => ({
       },
       security: [ { bearerAuth: [] } ]
     }
-  }
+  },
+  'strapi-plugin-populate-deep': {
+    config: {
+      defaultDepth: 5
+    }
+  },
 });

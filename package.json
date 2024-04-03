@@ -16,10 +16,13 @@
   },
   "devDependencies": {
     "@cryptodex/eslint-config": "workspace:*",
-    "ajv": "^8.12.0",
     "typescript": "5"
   },
   "dependencies": {
     "turbo": "^1.13.0"
+  },
+  "overrides": {
+    "ajv": "^8.12.0",
+    "prettier": "^3.2.5"
   }
 }
