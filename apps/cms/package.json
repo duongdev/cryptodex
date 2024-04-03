@@ -12,6 +12,7 @@
   "dependencies": {
     "@schornio/strapi-provider-upload-vercel-blob": "^0.1.0",
     "@strapi/plugin-cloud": "4.21.1",
+    "@strapi/plugin-documentation": "^4.21.1",
     "@strapi/plugin-i18n": "4.21.1",
     "@strapi/plugin-users-permissions": "4.21.1",
     "@strapi/strapi": "4.21.1",
