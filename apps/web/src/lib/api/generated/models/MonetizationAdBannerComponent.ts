@@ -145,6 +145,10 @@ export type MonetizationAdBannerComponent = {
     open_new_tab?: boolean;
   };
   placement?: MonetizationAdBannerComponent.placement;
+  height?: number;
+  width?: number;
+  track_metadata?: string;
+  custom_class_name?: string;
 };
 export namespace MonetizationAdBannerComponent {
   export enum type {

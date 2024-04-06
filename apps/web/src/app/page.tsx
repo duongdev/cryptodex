@@ -1,5 +1,6 @@
 import { Filter } from 'lucide-react'
 
+import { strapi } from '@/lib/api'
 import { getCryptoData } from '@/services/cryptos'
 
 import { exchangeOptions } from './_components/crypto-table/table-toolbar'
@@ -24,9 +25,15 @@ export default async function Home({
     return getCryptoData()
   }
 
+  const siteConfig = await strapi.siteConfig.getSiteConfig({
+    populate: 'deep,4',
+  })
+  const headerNavItems = siteConfig.data?.attributes?.header_nav ?? []
+  const adBanners = siteConfig.data?.attributes?.ad_banners ?? []
+
   return (
     <div className="bg-background relative flex min-h-screen flex-col">
-      <Header>
+      <Header headerNavItems={headerNavItems}>
         <div className="flex flex-1 items-center gap-2">
           <PerformanceSelect className="hidden lg:block" />
           <TopSelect />
@@ -39,6 +46,7 @@ export default async function Home({
         </div>
       </Header>
       <RealtimeCryptoWrapper
+        adBanners={adBanners}
         // eslint-disable-next-line react/jsx-no-bind
         getCryptoData={handleGetCryptoData}
         initialCryptos={initialCryptos}

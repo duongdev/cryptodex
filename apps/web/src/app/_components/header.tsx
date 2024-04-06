@@ -5,18 +5,17 @@ import Link from 'next/link'
 
 import { DynamicLink } from '@/components/dynamic-link'
 import { Button } from '@/components/ui/button'
-import { strapi } from '@/lib/api'
+import type { NavigationAppBarNavComponent } from '@/lib/api'
 
 export type HeaderProps = {
   children?: ReactNode
+  headerNavItems?: NavigationAppBarNavComponent[]
 }
 
-export const Header: FC<HeaderProps> = async ({ children }) => {
-  const siteConfig = await strapi.siteConfig.getSiteConfig({
-    populate: 'deep,4',
-  })
-  const headerNavItems = siteConfig.data?.attributes?.header_nav ?? []
-
+export const Header: FC<HeaderProps> = async ({
+  children,
+  headerNavItems = [],
+}) => {
   return (
     <header className="border-border/40 bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
       <div className="container flex h-14 max-w-screen-2xl items-center px-2 md:px-8">

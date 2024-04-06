@@ -34,7 +34,7 @@ export const DynamicLink: FC<DynamicLinkProps> = ({
     return (
       <a
         key={link.id}
-        className={`opacity-80 transition-opacity hover:opacity-100 ${className}`}
+        className={className}
         href={link.external_url}
         rel="noreferrer"
         target="_blank"

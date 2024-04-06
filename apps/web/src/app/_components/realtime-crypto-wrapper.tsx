@@ -3,7 +3,9 @@
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 
+import { AdBanner } from '@/components/ad-banner'
 import { Progress } from '@/components/ui/progress'
+import { MonetizationAdBannerComponent } from '@/lib/api'
 import { REFRESH_INTERVAL } from '@/lib/constants'
 import type { CryptoData } from '@/lib/types'
 
@@ -15,12 +17,14 @@ export type RealtimeCryptoWrapperProps = {
   initialCryptos: CryptoData[]
   top: number
   getCryptoData: () => Promise<CryptoData[]>
+  adBanners?: MonetizationAdBannerComponent[]
 }
 
 export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
   initialCryptos,
   top,
   getCryptoData,
+  adBanners = [],
 }) => {
   const [cryptos, setCryptos] = useState<CryptoData[]>(initialCryptos)
   const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now())
@@ -36,6 +40,11 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
     return () => clearInterval(interval)
   }, [getCryptoData])
 
+  const belowBubblesBanners = adBanners.filter(
+    (banner) =>
+      banner.placement === MonetizationAdBannerComponent.placement.BELOW_BUBBLE,
+  )
+
   return (
     <>
       <UpdateProgress
@@ -50,6 +59,13 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
         className="container -mt-10 flex flex-col gap-4 px-2 pb-8 pt-16 md:px-8"
         id="table-wrapper"
       >
+        {belowBubblesBanners.length > 0 && (
+          <div className="flex w-full flex-col gap-2 md:gap-4">
+            {belowBubblesBanners.map((banner) => (
+              <AdBanner key={banner.id} banner={banner} className="w-full" />
+            ))}
+          </div>
+        )}
         <CryptoDataTable columns={columns} data={cryptos} />
       </div>
     </>

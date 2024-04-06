@@ -32,6 +32,22 @@
         "floating_left",
         "floating_right"
       ]
+    },
+    "height": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "width": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "track_metadata": {
+      "type": "string"
+    },
+    "custom_class_name": {
+      "type": "string"
     }
   }
 }
