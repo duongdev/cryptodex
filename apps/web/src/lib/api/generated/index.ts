@@ -18,6 +18,7 @@ export type { ExchangeListResponseDataItem } from './models/ExchangeListResponse
 export type { ExchangeRequest } from './models/ExchangeRequest';
 export type { ExchangeResponse } from './models/ExchangeResponse';
 export type { ExchangeResponseDataObject } from './models/ExchangeResponseDataObject';
+export { MonetizationAdBannerComponent } from './models/MonetizationAdBannerComponent';
 export { NavigationAppBarNavComponent } from './models/NavigationAppBarNavComponent';
 export type { Page } from './models/Page';
 export type { PageListResponse } from './models/PageListResponse';

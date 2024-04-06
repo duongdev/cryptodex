@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { MonetizationAdBannerComponent } from './MonetizationAdBannerComponent';
 import type { NavigationAppBarNavComponent } from './NavigationAppBarNavComponent';
 export type SiteConfigRequest = {
   data: {
@@ -9,6 +10,7 @@ export type SiteConfigRequest = {
     footer_nav_col_1?: Array<NavigationAppBarNavComponent>;
     footer_nav_col_2?: Array<NavigationAppBarNavComponent>;
     footer_nav_col_3?: Array<NavigationAppBarNavComponent>;
+    ad_banners?: Array<MonetizationAdBannerComponent>;
   };
 };
 

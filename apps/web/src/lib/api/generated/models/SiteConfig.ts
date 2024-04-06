@@ -2,12 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { MonetizationAdBannerComponent } from './MonetizationAdBannerComponent';
 import type { NavigationAppBarNavComponent } from './NavigationAppBarNavComponent';
 export type SiteConfig = {
   header_nav?: Array<NavigationAppBarNavComponent>;
   footer_nav_col_1?: Array<NavigationAppBarNavComponent>;
   footer_nav_col_2?: Array<NavigationAppBarNavComponent>;
   footer_nav_col_3?: Array<NavigationAppBarNavComponent>;
+  ad_banners?: Array<MonetizationAdBannerComponent>;
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;

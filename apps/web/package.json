@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "bun openapi -i ../cms/src/extensions/documentation/documentation/1.0.0/full_documentation.json -o src/lib/api/generated -c axios --indent 2 --name Strapi --useOptions"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.0.4",

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "site-config",
     "pluralName": "site-configs",
-    "displayName": "SiteConfig"
+    "displayName": "SiteConfig",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -30,6 +31,11 @@
       "type": "component",
       "repeatable": true,
       "component": "navigation.app-bar-nav"
+    },
+    "ad_banners": {
+      "type": "component",
+      "repeatable": true,
+      "component": "monetization.ad-banner"
     }
   }
 }

@@ -23,6 +23,15 @@
       "type": "component",
       "repeatable": false,
       "component": "common.link"
+    },
+    "placement": {
+      "type": "enumeration",
+      "enum": [
+        "bubble",
+        "below_bubble",
+        "floating_left",
+        "floating_right"
+      ]
     }
   }
 }
