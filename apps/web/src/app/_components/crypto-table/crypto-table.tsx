@@ -187,7 +187,7 @@ export function CryptoDataTable<TData, TValue>({
         <hr />
 
         <TablePagination
-          className="m-4"
+          className="m-4 mx-auto w-min"
           gotoPage={handleSetPageIndex}
           nextPage={handleNextPage}
           pageCount={maxPageIndex}
@@ -242,7 +242,7 @@ const TablePagination: FC<{
         {items.slice(start, end).map((i) => (
           <PaginationItem
             key={i}
-            className="cursor-pointer"
+            className="hidden cursor-pointer md:block"
             onClick={() => gotoPage(i)}
           >
             <PaginationLink isActive={i === pageIndex}>{i + 1}</PaginationLink>
@@ -251,12 +251,12 @@ const TablePagination: FC<{
         {pageIndex < pageCount - maxPageItems && (
           <>
             {end < pageCount - 1 && (
-              <PaginationItem className="cursor-pointer">
+              <PaginationItem className="hidden cursor-pointer md:block">
                 <PaginationEllipsis />
               </PaginationItem>
             )}
             <PaginationItem
-              className="cursor-pointer"
+              className="hidden cursor-pointer md:block"
               onClick={() => gotoPage(pageCount - 1)}
             >
               <PaginationLink>{pageCount}</PaginationLink>

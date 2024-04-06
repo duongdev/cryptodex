@@ -28,9 +28,10 @@ export default async function Home({
     <div className="bg-background relative flex min-h-screen flex-col">
       <Header>
         <div className="flex flex-1 items-center gap-2">
-          <PerformanceSelect />
+          <PerformanceSelect className="hidden lg:block" />
           <TopSelect />
           <ExchangeFilter
+            className="hidden lg:flex"
             icon={<Filter className="mr-2 h-4 w-4" />}
             options={exchangeOptions}
             title="Exchanges"
