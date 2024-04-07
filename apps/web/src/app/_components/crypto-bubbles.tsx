@@ -16,6 +16,7 @@ import { exchangeFilterAtom, performanceOptionAtom } from '@/atoms/crypto'
 import { useTrackBannerClick } from '@/components/ad-banner'
 import type { MonetizationAdBannerComponent } from '@/lib/api'
 import {
+  BUBBLE_OPTIONS,
   DEFAULT_PERFORMANCE_OPTION,
   PERFORMANCE_OPTIONS,
 } from '@/lib/constants'
@@ -49,13 +50,6 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
 
   const { width, height } = useWindowSize()
 
-  const minAbsValue = useMemo(() => {
-    return Math.min(
-      ...cryptos.map((crypto) =>
-        Math.abs((crypto.performance as ANY)[performanceKey] as number),
-      ),
-    )
-  }, [cryptos, performanceKey])
   const maxAbsValue = useMemo(() => {
     return Math.max(
       ...cryptos.map((crypto) =>
@@ -99,9 +93,13 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
 
     /* For s=1200000, min=50, max=250. Scales the min and max by s */
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    const minSize = Math.sqrt((baseMinSize * baseMinSize * s) / 1200000)
+    const minSize = Math.sqrt(
+      (baseMinSize * baseMinSize * s) / BUBBLE_OPTIONS.baseSquareSize,
+    )
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    const maxSize = Math.sqrt((baseMaxSize * baseMaxSize * s) / 1200000)
+    const maxSize = Math.sqrt(
+      (baseMaxSize * baseMaxSize * s) / BUBBLE_OPTIONS.baseSquareSize,
+    )
 
     // const minSize = 20
     // const maxSize = 120
@@ -132,15 +130,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
           maxSize: `${maxSize}px`,
           zMin: 0,
           zMax: 100,
-          layoutAlgorithm: {
-            splitSeries: false,
-            gravitationalConstant: 0.01,
-            maxSpeed: 0.5,
-            friction: 0.9,
-            initialPositionRadius: 100,
-            initialPositions: 'circle',
-            enableSimulation: true,
-          },
+          layoutAlgorithm: BUBBLE_OPTIONS.layoutAlgorithm,
           events: {
             click(e) {
               const point = e.point as ANY
@@ -205,14 +195,19 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
                   selectedExchanges.includes(exchange),
                 )
 
-              const minOpacity = 0.4
-              const maxOpacity = 1
+              const {
+                minOpacity,
+                maxOpacity,
+                filteredOutOpacity,
+                positiveColor,
+                negativeColor,
+              } = BUBBLE_OPTIONS
 
               // scale opacity based on value
               // if value is negative, scale based on minNegativeValue and maxNegativeValue
               // if value is positive, scale based on minPositiveValue and maxPositiveValue
               const opacity =
-                (!isInExchangeFilter && 0.1) ||
+                (!isInExchangeFilter && filteredOutOpacity) ||
                 (value < 0
                   ? minOpacity +
                     ((Math.abs(orgValue) - minNegativeValue) /
@@ -230,8 +225,8 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
                 image: crypto.image,
                 color:
                   crypto.performance.d < 0
-                    ? `rgba(251, 17, 17, ${opacity})`
-                    : `rgba(37, 255, 117, ${opacity})`,
+                    ? `rgba(${negativeColor}, ${opacity})`
+                    : `rgba(${positiveColor}, ${opacity})`,
               }
             }),
             ...banners.map((banner) => ({
@@ -257,6 +252,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
     minPositiveValue,
     minSize,
     performanceKey,
+    selectedExchanges,
     trackBannerClick,
   ])
 
