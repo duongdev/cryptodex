@@ -12,7 +12,9 @@ import { useAtom } from 'jotai'
 import numeral from 'numeral'
 import { useWindowSize } from 'react-use'
 
-import { performanceOptionAtom } from '@/atoms/crypto'
+import { exchangeFilterAtom, performanceOptionAtom } from '@/atoms/crypto'
+import { useTrackBannerClick } from '@/components/ad-banner'
+import type { MonetizationAdBannerComponent } from '@/lib/api'
 import {
   DEFAULT_PERFORMANCE_OPTION,
   PERFORMANCE_OPTIONS,
@@ -27,14 +29,18 @@ if (typeof Highcharts === 'object') {
 
 export type CryptoBubblesProps = {
   cryptos: CryptoData[]
+  banners?: MonetizationAdBannerComponent[]
   className?: string
 }
 
 export const CryptoBubbles: FC<CryptoBubblesProps> = ({
   cryptos,
+  banners = [],
   className,
 }) => {
+  const trackBannerClick = useTrackBannerClick()
   const chartRef = useRef<HighchartsReactRefObject>(null)
+  const [selectedExchanges] = useAtom(exchangeFilterAtom)
   const [performanceOption] = useAtom(performanceOptionAtom)
   const selectedPerformanceOption =
     PERFORMANCE_OPTIONS[performanceOption] ||
@@ -42,6 +48,49 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
   const performanceKey = selectedPerformanceOption.key
 
   const { width, height } = useWindowSize()
+
+  const minAbsValue = useMemo(() => {
+    return Math.min(
+      ...cryptos.map((crypto) =>
+        Math.abs((crypto.performance as ANY)[performanceKey] as number),
+      ),
+    )
+  }, [cryptos, performanceKey])
+  const maxAbsValue = useMemo(() => {
+    return Math.max(
+      ...cryptos.map((crypto) =>
+        Math.abs((crypto.performance as ANY)[performanceKey] as number),
+      ),
+    )
+  }, [cryptos, performanceKey])
+  const minNegativeValue = useMemo(() => {
+    return Math.min(
+      ...cryptos
+        .filter((crypto) => (crypto.performance as ANY)[performanceKey] < 0)
+        .map((crypto) => (crypto.performance as ANY)[performanceKey]),
+    )
+  }, [cryptos, performanceKey])
+  const maxNegativeValue = useMemo(() => {
+    return Math.max(
+      ...cryptos
+        .filter((crypto) => (crypto.performance as ANY)[performanceKey] < 0)
+        .map((crypto) => (crypto.performance as ANY)[performanceKey]),
+    )
+  }, [cryptos, performanceKey])
+  const minPositiveValue = useMemo(() => {
+    return Math.min(
+      ...cryptos
+        .filter((crypto) => (crypto.performance as ANY)[performanceKey] > 0)
+        .map((crypto) => (crypto.performance as ANY)[performanceKey]),
+    )
+  }, [cryptos, performanceKey])
+  const maxPositiveValue = useMemo(() => {
+    return Math.max(
+      ...cryptos
+        .filter((crypto) => (crypto.performance as ANY)[performanceKey] > 0)
+        .map((crypto) => (crypto.performance as ANY)[performanceKey]),
+    )
+  }, [cryptos, performanceKey])
 
   const { minSize, maxSize } = useMemo(() => {
     const [baseMinSize, baseMaxSize] = selectedPerformanceOption.sizes
@@ -94,7 +143,14 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
           },
           events: {
             click(e) {
-              logger.info(e)
+              const point = e.point as ANY
+              if (!point?.options?.banner) {
+                return
+              }
+              if (typeof point?.options?.link === 'string') {
+                trackBannerClick(point.options?.banner)
+                window.open(point?.options?.link, '_blank')
+              }
             },
           },
           dataLabels: {
@@ -104,6 +160,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
             formatter() {
               // eslint-disable-next-line react/no-this-in-sfc
               const point = this.point as ANY
+              const isBanner = !!point.options?.banner
               // scale font size based on value
               const size =
                 Math.max(
@@ -118,7 +175,8 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
                   <img src="${point.image}" width="${size + 10}" height="${size + 10}"/>
                 </div>
                 <div style="font-size: ${size}px">
-                  <b>${point.name}</b><br/>${numeral(point.orgValue).format(point.orgValue > 100 ? '0.0' : '0.00')}%
+                  <b>${point.name}</b>
+                  ${isBanner ? '' : `<br/>${numeral(point.orgValue).format(point.orgValue > 100 ? '0.0' : '0.00')}%`}
                 </div>
               `
             },
@@ -134,28 +192,73 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
       series: [
         {
           keys: ['name'],
-          data: cryptos.map((crypto) => {
-            const orgValue =
-              Math.round(
-                ((crypto.performance as ANY)[performanceKey] as number) * 100,
-              ) / 100
-            const value = Math.abs(orgValue)
+          data: [
+            ...cryptos.map((crypto) => {
+              const orgValue =
+                Math.round(
+                  ((crypto.performance as ANY)[performanceKey] as number) * 100,
+                ) / 100
+              const value = Math.abs(orgValue)
+              const isInExchangeFilter =
+                selectedExchanges.length === 0 ||
+                crypto.exchanges?.some((exchange) =>
+                  selectedExchanges.includes(exchange),
+                )
 
-            return {
-              name: crypto.symbol.toUpperCase(),
-              value,
-              orgValue,
-              color:
-                crypto.performance.d < 0
-                  ? 'rgb(239, 68, 68)'
-                  : 'rgb(34, 197, 94)',
-              image: crypto.image,
-            }
-          }),
+              const minOpacity = 0.4
+              const maxOpacity = 1
+
+              // scale opacity based on value
+              // if value is negative, scale based on minNegativeValue and maxNegativeValue
+              // if value is positive, scale based on minPositiveValue and maxPositiveValue
+              const opacity =
+                (!isInExchangeFilter && 0.1) ||
+                (value < 0
+                  ? minOpacity +
+                    ((Math.abs(orgValue) - minNegativeValue) /
+                      (maxNegativeValue - minNegativeValue)) *
+                      (maxOpacity - minOpacity)
+                  : minOpacity +
+                    ((Math.abs(orgValue) - minPositiveValue) /
+                      (maxPositiveValue - minPositiveValue)) *
+                      (maxOpacity - minOpacity))
+
+              return {
+                name: crypto.symbol.toUpperCase(),
+                value,
+                orgValue,
+                image: crypto.image,
+                color:
+                  crypto.performance.d < 0
+                    ? `rgba(251, 17, 17, ${opacity})`
+                    : `rgba(37, 255, 117, ${opacity})`,
+              }
+            }),
+            ...banners.map((banner) => ({
+              banner,
+              name: banner.title_en,
+              image: banner.medium?.data?.attributes?.url,
+              color: 'rgb(77 11 218 / 1)',
+              value: maxAbsValue * 1.25,
+              link: banner.link?.external_url,
+            })),
+          ],
         },
       ] as ANY,
     }
-  }, [cryptos, maxSize, minSize, performanceKey])
+  }, [
+    banners,
+    cryptos,
+    maxAbsValue,
+    maxNegativeValue,
+    maxPositiveValue,
+    maxSize,
+    minNegativeValue,
+    minPositiveValue,
+    minSize,
+    performanceKey,
+    trackBannerClick,
+  ])
 
   useEffect(() => {
     logger.info('redraw chart')

@@ -40,6 +40,10 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
     return () => clearInterval(interval)
   }, [getCryptoData])
 
+  const bubbleBanners = adBanners.filter(
+    (banner) =>
+      banner.placement === MonetizationAdBannerComponent.placement.BUBBLE,
+  )
   const belowBubblesBanners = adBanners.filter(
     (banner) =>
       banner.placement === MonetizationAdBannerComponent.placement.BELOW_BUBBLE,
@@ -52,6 +56,7 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
         updateInterval={REFRESH_INTERVAL}
       />
       <CryptoBubbles
+        banners={bubbleBanners}
         className="h-[calc(100dvh-56px)] bg-slate-900"
         cryptos={topCryptos}
       />
