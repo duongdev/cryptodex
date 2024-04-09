@@ -64,7 +64,7 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
         cryptos={topCryptos}
       />
       <div
-        className="container -mt-10 flex flex-col gap-4 px-2 pb-8 pt-16 md:px-8"
+        className="container max-w-screen-2xl -mt-10 flex flex-col gap-4 px-2 pb-8 pt-16 md:px-8"
         id="table-wrapper"
       >
         {belowBubblesBanners.length > 0 && (
