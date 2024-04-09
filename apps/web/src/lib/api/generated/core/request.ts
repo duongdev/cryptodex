@@ -12,7 +12,6 @@ import type { ApiResult } from './ApiResult';
 import { CancelablePromise } from './CancelablePromise';
 import type { OnCancel } from './CancelablePromise';
 import type { OpenAPIConfig } from './OpenAPI';
-import { ANY } from '@/lib/types';
 
 export const isDefined = <T>(value: T | null | undefined): value is Exclude<T, null | undefined> => {
   return value !== undefined && value !== null;
@@ -218,7 +217,7 @@ export const sendRequest = async <T>(
     withCredentials: config.WITH_CREDENTIALS,
     withXSRFToken: config.CREDENTIALS === 'include' ? config.WITH_CREDENTIALS : false,
     cancelToken: source.token,
-  } as ANY;
+  } as any;
 
   onCancel(() => source.cancel('The user aborted a request.'));
 

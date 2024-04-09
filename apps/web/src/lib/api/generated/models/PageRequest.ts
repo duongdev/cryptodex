@@ -7,6 +7,8 @@ export type PageRequest = {
     title_en: string;
     slug: string;
     content_en?: string;
+    title_ind?: string;
+    content_ind?: string;
   };
 };
 

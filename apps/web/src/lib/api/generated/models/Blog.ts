@@ -6,6 +6,8 @@ export type Blog = {
   title_en?: string;
   slug: string;
   content_en?: string;
+  title_ind?: string;
+  content_ind?: string;
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
