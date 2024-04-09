@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Page = {
-  title_en: string;
+export type Blog = {
+  title_en?: string;
   slug: string;
   content_en?: string;
   createdAt?: string;

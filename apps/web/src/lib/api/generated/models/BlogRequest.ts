@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type PageRequest = {
+export type BlogRequest = {
   data: {
-    title_en: string;
+    title_en?: string;
     slug: string;
     content_en?: string;
   };

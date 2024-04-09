@@ -10,6 +10,12 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { Blog } from './models/Blog';
+export type { BlogListResponse } from './models/BlogListResponse';
+export type { BlogListResponseDataItem } from './models/BlogListResponseDataItem';
+export type { BlogRequest } from './models/BlogRequest';
+export type { BlogResponse } from './models/BlogResponse';
+export type { BlogResponseDataObject } from './models/BlogResponseDataObject';
 export { CommonLinkComponent } from './models/CommonLinkComponent';
 export type { Error } from './models/Error';
 export type { Exchange } from './models/Exchange';
@@ -33,6 +39,7 @@ export type { SiteConfigRequest } from './models/SiteConfigRequest';
 export type { SiteConfigResponse } from './models/SiteConfigResponse';
 export type { SiteConfigResponseDataObject } from './models/SiteConfigResponseDataObject';
 
+export { BlogService } from './services/BlogService';
 export { ExchangeService } from './services/ExchangeService';
 export { PageService } from './services/PageService';
 export { SiteConfigService } from './services/SiteConfigService';

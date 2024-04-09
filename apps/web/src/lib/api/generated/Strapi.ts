@@ -5,11 +5,13 @@
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
 import type { OpenAPIConfig } from './core/OpenAPI';
 import { AxiosHttpRequest } from './core/AxiosHttpRequest';
+import { BlogService } from './services/BlogService';
 import { ExchangeService } from './services/ExchangeService';
 import { PageService } from './services/PageService';
 import { SiteConfigService } from './services/SiteConfigService';
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
 export class Strapi {
+  public readonly blog: BlogService;
   public readonly exchange: ExchangeService;
   public readonly page: PageService;
   public readonly siteConfig: SiteConfigService;
@@ -26,6 +28,7 @@ export class Strapi {
       HEADERS: config?.HEADERS,
       ENCODE_PATH: config?.ENCODE_PATH,
     });
+    this.blog = new BlogService(this.request);
     this.exchange = new ExchangeService(this.request);
     this.page = new PageService(this.request);
     this.siteConfig = new SiteConfigService(this.request);
