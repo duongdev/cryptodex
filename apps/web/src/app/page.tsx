@@ -30,6 +30,12 @@ export default async function Home({
   })
   const headerNavItems = siteConfig.data?.attributes?.header_nav ?? []
   const adBanners = siteConfig.data?.attributes?.ad_banners ?? []
+  const exchanges =
+    (
+      await strapi.exchange.getExchanges({
+        populate: 'deep,4',
+      })
+    ).data ?? []
 
   return (
     <div className="bg-background relative flex min-h-screen flex-col">
@@ -47,6 +53,7 @@ export default async function Home({
       </Header>
       <RealtimeCryptoWrapper
         adBanners={adBanners}
+        exchanges={exchanges}
         // eslint-disable-next-line react/jsx-no-bind
         getCryptoData={handleGetCryptoData}
         initialCryptos={initialCryptos}

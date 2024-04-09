@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 
 import { AdBanner } from '@/components/ad-banner'
 import { Progress } from '@/components/ui/progress'
+import type { ExchangeListResponseDataItem } from '@/lib/api'
 import { MonetizationAdBannerComponent } from '@/lib/api'
 import { REFRESH_INTERVAL } from '@/lib/constants'
 import type { CryptoData } from '@/lib/types'
@@ -18,6 +19,7 @@ export type RealtimeCryptoWrapperProps = {
   top: number
   getCryptoData: () => Promise<CryptoData[]>
   adBanners?: MonetizationAdBannerComponent[]
+  exchanges?: ExchangeListResponseDataItem[]
 }
 
 export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
@@ -25,6 +27,7 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
   top,
   getCryptoData,
   adBanners = [],
+  exchanges = [],
 }) => {
   const [cryptos, setCryptos] = useState<CryptoData[]>(initialCryptos)
   const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now())
@@ -71,7 +74,11 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
             ))}
           </div>
         )}
-        <CryptoDataTable columns={columns} data={cryptos} />
+        <CryptoDataTable
+          columns={columns}
+          data={cryptos}
+          exchanges={exchanges}
+        />
       </div>
     </>
   )

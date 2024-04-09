@@ -5,6 +5,7 @@ import { ArrowUpDown } from 'lucide-react'
 import Image from 'next/image'
 import numeral from 'numeral'
 
+import { DynamicLink } from '@/components/dynamic-link'
 import { Button } from '@/components/ui/button'
 import {
   Tooltip,
@@ -12,7 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { EXCHANGE_CONFIG } from '@/lib/exchanges'
+import type { ExchangeListResponseDataItem } from '@/lib/api'
 import type { Exchange } from '@/lib/exchanges'
 import type { ANY, CryptoData, Currency } from '@/lib/types'
 
@@ -252,12 +253,18 @@ export const columns: ColumnDef<CryptoData>[] = [
   {
     accessorKey: 'exchanges',
     header: 'Exchanges',
-    cell: ({ getValue }) => (
+    cell: ({ getValue, table }) => (
       <TooltipProvider>
         <div className="flex w-64 items-center gap-2">
-          {getValue<Exchange[]>().map((exc) => (
-            <ExchangeItem key={exc} exchange={exc} />
-          ))}
+          {getValue<Exchange[]>().map((exc) => {
+            const exchange = getTableMeta(table).exchanges.find(
+              (e) => e.attributes?.slug === exc,
+            )
+            if (!exchange) {
+              return null
+            }
+            return <ExchangeItem key={exc} exchange={exchange} />
+          })}
         </div>
       </TooltipProvider>
     ),
@@ -267,6 +274,7 @@ export const columns: ColumnDef<CryptoData>[] = [
 const getTableMeta = (table: ANY) => ({
   currency: (table.options.meta.currency as Currency) || 'USD',
   currencyRate: (table.options.meta.currencyRate as number) || 1,
+  exchanges: table.options.meta.exchanges as ExchangeListResponseDataItem[],
 })
 
 function getConvertedAmount({
@@ -295,16 +303,26 @@ function renderPerformance(value: number) {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-function ExchangeItem({ exchange }: { exchange: Exchange }) {
-  const exchangeConfig = EXCHANGE_CONFIG[exchange]
+function ExchangeItem({
+  exchange,
+}: {
+  exchange: ExchangeListResponseDataItem
+}) {
+  const contentEl = exchange.attributes?.website_link ? (
+    <DynamicLink link={exchange.attributes.website_link}>
+      <ExchangeLogo exchange={exchange} size={24} />
+    </DynamicLink>
+  ) : (
+    <ExchangeLogo exchange={exchange} size={24} />
+  )
 
   return (
     <Tooltip>
-      <TooltipTrigger>
-        <ExchangeLogo exchange={exchange} size={24} />
+      <TooltipTrigger className="cursor-default">
+        {contentEl}
       </TooltipTrigger>
       <TooltipContent>
-        <p>{exchangeConfig.name}</p>
+        <p>{exchange.attributes?.name}</p>
       </TooltipContent>
     </Tooltip>
   )

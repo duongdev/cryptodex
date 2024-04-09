@@ -1,30 +1,37 @@
 import Image from 'next/image'
 
-import type { Exchange } from '@/lib/exchanges'
-import { EXCHANGE_CONFIG } from '@/lib/exchanges'
+import type { ExchangeListResponseDataItem } from '@/lib/api'
 import { cn } from '@/lib/utils'
+import { track } from '@vercel/analytics/react'
 
 export function ExchangeLogo({
   exchange,
   size = 24,
   className,
 }: {
-  exchange: Exchange
+  exchange: ExchangeListResponseDataItem
   size?: number
   className?: string
 }) {
-  const exchangeConfig = EXCHANGE_CONFIG[exchange]
-
-  if (!exchangeConfig) {
+  if (!exchange.attributes?.logo.data?.attributes?.url) {
     return null
+  }
+
+  const handleClick = () => {
+    track('exchange-logo-clicked', {
+      exchange: exchange.attributes?.slug ?? null,
+      name: exchange.attributes?.name ?? null,
+      website: exchange.attributes?.website_link?.external_url ?? null,
+    })
   }
 
   return (
     <Image
-      alt={exchange}
+      alt={exchange.attributes?.name ?? ''}
       className={cn('shrink-0 rounded-sm', className)}
       height={size}
-      src={exchangeConfig.logo}
+      onClick={handleClick}
+      src={exchange.attributes?.logo.data?.attributes?.url}
       width={size}
     />
   )

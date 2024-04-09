@@ -33,6 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import type { ExchangeListResponseDataItem } from '@/lib/api'
 import { CRYPTO_TABLE_SIZE } from '@/lib/constants'
 import type { CryptoData } from '@/lib/types'
 
@@ -43,11 +44,13 @@ const DEBOUNCE_DELAY = 300
 interface CryptoDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  exchanges?: ExchangeListResponseDataItem[]
 }
 
 export function CryptoDataTable<TData, TValue>({
   columns,
   data,
+  exchanges = [],
 }: CryptoDataTableProps<TData, TValue>) {
   const [pageIndex, setPageIndex] = useState(0)
   const [sorting, setSorting] = useState<SortingState>([])
@@ -95,6 +98,7 @@ export function CryptoDataTable<TData, TValue>({
     meta: {
       currency: selectedCurrency,
       currencyRate: CURRENCY_RATE[selectedCurrency],
+      exchanges,
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
