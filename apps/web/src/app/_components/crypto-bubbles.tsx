@@ -14,7 +14,7 @@ import { useWindowSize } from 'react-use'
 
 import { exchangeFilterAtom, performanceOptionAtom } from '@/atoms/crypto'
 import { useTrackBannerClick } from '@/components/ad-banner'
-import type { MonetizationAdBannerComponent } from '@/lib/api'
+import type { MonetizationAdBannerComponent } from '@/lib/api/strapi'
 import {
   BUBBLE_OPTIONS,
   DEFAULT_PERFORMANCE_OPTION,

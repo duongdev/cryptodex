@@ -1,6 +1,7 @@
 import { Filter } from 'lucide-react'
 
-import { strapi } from '@/lib/api'
+import { getHeaderNavItems, getSiteConfig } from '@/lib/api/common'
+import { strapi } from '@/lib/api/strapi'
 import { getCryptoData } from '@/services/cryptos'
 
 import { exchangeOptions } from './_components/crypto-table/table-toolbar'
@@ -25,10 +26,8 @@ export default async function Home({
     return getCryptoData()
   }
 
-  const siteConfig = await strapi.siteConfig.getSiteConfig({
-    populate: 'deep,4',
-  })
-  const headerNavItems = siteConfig.data?.attributes?.header_nav ?? []
+  const siteConfig = await getSiteConfig()
+  const headerNavItems = await getHeaderNavItems(siteConfig)
   const adBanners = siteConfig.data?.attributes?.ad_banners ?? []
   const exchanges =
     (

@@ -1,0 +1,11 @@
+.page-content h1 {
+  @apply text-2xl font-semibold pt-4;
+}
+
+.page-content h2 {
+  @apply text-xl font-semibold pt-4;
+}
+
+.page-content ul {
+  @apply list-disc list-outside space-y-1 ml-4 md:ml-6;
+}

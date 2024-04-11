@@ -33,9 +33,11 @@ export default function RootLayout({
         <JotaiProvider>
           <ThemeProvider
             disableTransitionOnChange
+            enableColorScheme
             enableSystem
             attribute="class"
             defaultTheme="system"
+            // forcedTheme="dark"
             storageKey="theme"
           >
             {children}

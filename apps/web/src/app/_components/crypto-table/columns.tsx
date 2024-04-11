@@ -13,7 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import type { ExchangeListResponseDataItem } from '@/lib/api'
+import type { ExchangeListResponseDataItem } from '@/lib/api/strapi'
 import type { Exchange } from '@/lib/exchanges'
 import type { ANY, CryptoData, Currency } from '@/lib/types'
 

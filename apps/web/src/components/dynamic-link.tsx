@@ -2,8 +2,8 @@ import type { FC, ReactNode } from 'react'
 
 import Link from 'next/link'
 
-import type { Page } from '@/lib/api'
-import { NavigationAppBarNavComponent } from '@/lib/api'
+import type { Page } from '@/lib/api/strapi'
+import { NavigationAppBarNavComponent } from '@/lib/api/strapi'
 
 export type DynamicLinkProps = {
   link: {

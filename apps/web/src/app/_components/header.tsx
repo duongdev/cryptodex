@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 import { DynamicLink } from '@/components/dynamic-link'
 import { Button } from '@/components/ui/button'
-import type { NavigationAppBarNavComponent } from '@/lib/api'
+import type { NavigationAppBarNavComponent } from '@/lib/api/strapi'
 
 export type HeaderProps = {
   children?: ReactNode
@@ -27,7 +27,7 @@ export const Header: FC<HeaderProps> = async ({
             src="/images/logo/logo-base-256x256.png"
             width={32}
           />
-          <div className="ml-1 hidden text-lg font-semibold text-[#4D0BDA] md:block">
+          <div className="ml-1 hidden text-lg font-semibold text-primary md:block">
             <b>Harga</b>Crypto
           </div>
         </Link>

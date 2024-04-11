@@ -5,7 +5,7 @@ import type { FC } from 'react'
 import { track } from '@vercel/analytics/react'
 import Image from 'next/image'
 
-import type { MonetizationAdBannerComponent } from '@/lib/api'
+import type { MonetizationAdBannerComponent } from '@/lib/api/strapi'
 import { cn } from '@/lib/utils'
 
 import { DynamicLink } from './dynamic-link'

@@ -33,7 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import type { ExchangeListResponseDataItem } from '@/lib/api'
+import type { ExchangeListResponseDataItem } from '@/lib/api/strapi'
 import { CRYPTO_TABLE_SIZE } from '@/lib/constants'
 import type { CryptoData } from '@/lib/types'
 

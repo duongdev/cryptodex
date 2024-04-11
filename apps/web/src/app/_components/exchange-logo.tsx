@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import type { ExchangeListResponseDataItem } from '@/lib/api'
+import type { ExchangeListResponseDataItem } from '@/lib/api/strapi'
 import { cn } from '@/lib/utils'
 import { track } from '@vercel/analytics/react'
 

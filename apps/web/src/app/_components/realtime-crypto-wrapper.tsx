@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react'
 
 import { AdBanner } from '@/components/ad-banner'
 import { Progress } from '@/components/ui/progress'
-import type { ExchangeListResponseDataItem } from '@/lib/api'
-import { MonetizationAdBannerComponent } from '@/lib/api'
+import type { ExchangeListResponseDataItem } from '@/lib/api/strapi'
+import { MonetizationAdBannerComponent } from '@/lib/api/strapi'
 import { REFRESH_INTERVAL } from '@/lib/constants'
 import type { CryptoData } from '@/lib/types'
 
@@ -64,7 +64,7 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
         cryptos={topCryptos}
       />
       <div
-        className="container max-w-screen-2xl -mt-10 flex flex-col gap-4 px-2 pb-8 pt-16 md:px-8"
+        className="container -mt-10 flex max-w-screen-2xl flex-col gap-4 px-2 pb-8 pt-16 md:px-8"
         id="table-wrapper"
       >
         {belowBubblesBanners.length > 0 && (

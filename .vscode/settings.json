@@ -3,6 +3,7 @@
     "cryptodex",
     "highcharts",
     "packedbubble",
+    "strapi",
     "tanstack"
   ]
 }
