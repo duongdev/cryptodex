@@ -2,11 +2,12 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Provider as JotaiProvider } from 'jotai'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { DM_Sans } from 'next/font/google'
 
 import './globals.css'
+import { ThemeProvider } from '@/components/theme-provider'
 
-const inter = Inter({ subsets: ['latin'] })
+const fontFamily = DM_Sans({ subsets: ['latin'] })
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning lang="en">
       <head>
         <meta
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -28,8 +29,18 @@ export default function RootLayout({
         />
         <link href="/images/logo/logo-base-32x32.png" rel="icon" sizes="any" />
       </head>
-      <body className={inter.className}>
-        <JotaiProvider>{children}</JotaiProvider>
+      <body className={fontFamily.className}>
+        <JotaiProvider>
+          <ThemeProvider
+            disableTransitionOnChange
+            enableSystem
+            attribute="class"
+            defaultTheme="system"
+            storageKey="theme"
+          >
+            {children}
+          </ThemeProvider>
+        </JotaiProvider>
         <Analytics />
         <SpeedInsights />
       </body>
