@@ -56,6 +56,6 @@ export const BUBBLE_OPTIONS = {
   minOpacity: 0.4,
   maxOpacity: 1,
   filteredOutOpacity: 0.1,
-  positiveColor: '251, 17, 17',
-  negativeColor: '37, 255, 117',
+  positiveColor: '37, 255, 117',
+  negativeColor: '251, 17, 17',
 } as const
