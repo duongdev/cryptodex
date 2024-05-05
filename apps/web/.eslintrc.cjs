@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
-  extends: ['@cryptodex/eslint-config/web'],
+  extends: ['@cryptodex/eslint-config/web', 'next'],
   ignorePatterns: ['dist', '.eslintrc.cjs', '*.config.ts', '*.config.js'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -21,6 +21,6 @@ module.exports = {
       rules: {
         'react-refresh/only-export-components': 'off',
       },
-    }
-  ]
+    },
+  ],
 }

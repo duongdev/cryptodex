@@ -318,9 +318,7 @@ function ExchangeItem({
 
   return (
     <Tooltip>
-      <TooltipTrigger className="cursor-default">
-        {contentEl}
-      </TooltipTrigger>
+      <TooltipTrigger className="cursor-default">{contentEl}</TooltipTrigger>
       <TooltipContent>
         <p>{exchange.attributes?.name}</p>
       </TooltipContent>

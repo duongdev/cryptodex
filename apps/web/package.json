@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@cryptodex/eslint-config": "workspace:*",
+    "@next/eslint-plugin-next": "^14.2.3",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^18",
     "@types/numeral": "^2.0.5",

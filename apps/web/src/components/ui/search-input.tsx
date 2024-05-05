@@ -1,10 +1,14 @@
 'use client'
 
-import { cn } from "@/lib/utils"
-import { Search, X } from "lucide-react"
-import { ChangeEvent, FC, InputHTMLAttributes, useEffect, useRef, useState } from "react"
-import { Button } from "./button"
-import { Input } from "./input"
+import type { ChangeEvent, FC, InputHTMLAttributes } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+import { Search, X } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
+
+import { Button } from './button'
+import { Input } from './input'
 
 export type SearchInputProps = {
   placeholder?: string

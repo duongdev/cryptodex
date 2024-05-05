@@ -8,9 +8,9 @@ import '../../[...pageSlug]/page.css'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function generateMetadata({
-  blogSlug,
+  params: { blogSlug },
 }: {
-  blogSlug: string
+  params: { blogSlug: string }
 }): Promise<Metadata> {
   const page = await getBlogPost({ blogSlug })
 

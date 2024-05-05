@@ -1,8 +1,10 @@
-import { ReactNode } from "react";
-import { Header } from "../_components/header";
-import { getHeaderNavItems } from "@/lib/api/common";
+import type { ReactNode } from 'react'
 
-export default async function Layout({ children }: { children: ReactNode}) {
+import { getHeaderNavItems } from '@/lib/api/common'
+
+import { Header } from '../_components/header'
+
+export default async function Layout({ children }: { children: ReactNode }) {
   const headerNavItems = await getHeaderNavItems()
   return (
     <div>

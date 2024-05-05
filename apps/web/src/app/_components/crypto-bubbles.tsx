@@ -10,7 +10,7 @@ import type { HighchartsReactRefObject } from 'highcharts-react-official'
 import HighchartsReact from 'highcharts-react-official'
 import { useAtom } from 'jotai'
 import numeral from 'numeral'
-import { useWindowSize, useSize, useMeasure } from 'react-use'
+import { useWindowSize, useMeasure } from 'react-use'
 
 import { exchangeFilterAtom, performanceOptionAtom } from '@/atoms/crypto'
 import { useTrackBannerClick } from '@/components/ad-banner'
@@ -55,15 +55,6 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
   const width = mw || ww
   const height = mh || wh
 
-  console.log('🚀 ~ x:', { width, height })
-
-  const maxAbsValue = useMemo(() => {
-    return Math.max(
-      ...cryptos.map((crypto) =>
-        Math.abs((crypto.performance as ANY)[performanceKey] as number),
-      ),
-    )
-  }, [cryptos, performanceKey])
   const minNegativeValue = useMemo(() => {
     return Math.min(
       ...cryptos
@@ -100,10 +91,9 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
     }))
 
     // Constants
-    const s = width * height // Area of the chart in pixels
     const minSize = 30 // Min size is 30 pixels
     const maxSizeMultiplier = 3.5 // Max size is 3.5 times the min size
-    const chartArea = Math.pow(Math.min(width, height), 2) * 0.9
+    const chartArea = Math.min(width, height) ** 2 * 0.9
 
     // Normalize values: Convert each value to a scale where the smallest value is assigned the minSize,
     // and the largest does not exceed maxSizeMultiplier times the minSize.
@@ -147,11 +137,8 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
     return sizes
   }, [height, width, cryptos, performanceKey])
 
-  console.log(bubbleSizes)
-
   const minSize = Math.min(...Object.values(bubbleSizes))
   const maxSize = Math.max(...Object.values(bubbleSizes))
-  console.log(minSize, maxSize)
 
   const options: Highcharts.Options = {
     chart: {
@@ -230,7 +217,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
       {
         keys: ['name'],
         data: [
-          ...cryptos.map((crypto, index) => {
+          ...cryptos.map((crypto) => {
             const orgValue =
               Math.round(
                 ((crypto.performance as ANY)[performanceKey] as number) * 100,

@@ -1,8 +1,8 @@
+import { track } from '@vercel/analytics/react'
 import Image from 'next/image'
 
 import type { ExchangeListResponseDataItem } from '@/lib/api/strapi'
 import { cn } from '@/lib/utils'
-import { track } from '@vercel/analytics/react'
 
 export function ExchangeLogo({
   exchange,
@@ -30,9 +30,9 @@ export function ExchangeLogo({
       alt={exchange.attributes?.name ?? ''}
       className={cn('shrink-0 rounded-sm', className)}
       height={size}
-      onClick={handleClick}
       src={exchange.attributes?.logo.data?.attributes?.url}
       width={size}
+      onClick={handleClick}
     />
   )
 }
