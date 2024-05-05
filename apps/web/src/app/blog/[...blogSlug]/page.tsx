@@ -2,17 +2,17 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-import { getPage } from '@/lib/api/page'
+import { getBlogPost } from '@/lib/api/blog'
 
-import './page.css'
+import '../../[...pageSlug]/page.css'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export async function generateMetadata({
-  pageSlug,
+  blogSlug,
 }: {
-  pageSlug: string
+  blogSlug: string
 }): Promise<Metadata> {
-  const page = await getPage(pageSlug)
+  const page = await getBlogPost({ blogSlug })
 
   return {
     title: `${page?.title_en} | HargaCypto`,
@@ -31,10 +31,10 @@ export async function generateMetadata({
 export default async function Page({
   params,
 }: {
-  params: { pageSlug: string }
+  params: { blogSlug: string }
 }) {
-  const { pageSlug } = params
-  const page = await getPage(pageSlug)
+  const { blogSlug } = params
+  const page = await getBlogPost({ blogSlug })
 
   if (!page) {
     notFound()

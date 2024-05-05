@@ -50,7 +50,7 @@ export const DynamicLink: FC<DynamicLinkProps> = ({
       className={className}
       href={
         (link.type === NavigationAppBarNavComponent.type.PAGE &&
-          link.page?.data?.attributes?.slug) ||
+          `/${link.page?.data?.attributes?.slug}`) ||
         link.external_url ||
         '#'
       }

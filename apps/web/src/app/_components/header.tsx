@@ -27,7 +27,7 @@ export const Header: FC<HeaderProps> = async ({
             src="/images/logo/logo-base-256x256.png"
             width={32}
           />
-          <div className="ml-1 hidden text-lg font-semibold text-primary md:block">
+          <div className="text-primary ml-1 hidden text-lg font-semibold md:block">
             <b>Harga</b>Crypto
           </div>
         </Link>

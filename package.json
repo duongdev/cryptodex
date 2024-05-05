@@ -9,9 +9,10 @@
     "packages/*"
   ],
   "scripts": {
-    "build:cms": "turbo run build --filter={apps/cms}",
-    "dev:cms": "turbo run dev --filter={apps/cms}",
-    "start:cms": "turbo run start --filter={apps/cms}",
+    "cms:build": "turbo run build --filter={apps/cms}",
+    "cms:dev": "turbo run dev --filter={apps/cms}",
+    "cms:start": "turbo run start --filter={apps/cms}",
+    "web:dev": "turbo run dev --filter={apps/web}",
     "clean": "rm -rf node_modules {packages,apps}/*/node_modules bun.lockb {packages,apps}/*/bun.lockb"
   },
   "devDependencies": {
@@ -19,10 +20,13 @@
     "typescript": "5"
   },
   "dependencies": {
-    "turbo": "^1.13.0"
+    "turbo": "^1.13.3"
   },
   "overrides": {
-    "ajv": "^8.12.0",
     "prettier": "^3.2.5"
-  }
+  },
+  "trustedDependencies": [
+    "@vercel/speed-insights",
+    "core-js-pure"
+  ]
 }

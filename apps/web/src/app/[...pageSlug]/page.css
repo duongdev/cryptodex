@@ -9,3 +9,27 @@
 .page-content ul {
   @apply list-disc list-outside space-y-1 ml-4 md:ml-6;
 }
+
+.page-content figure.table {
+  @apply w-full block overflow-auto border rounded-lg;
+}
+
+.page-content table {
+  @apply w-full border-collapse table-auto;
+}
+
+.page-content th {
+  @apply bg-gray-200 text-left font-semibold p-2;
+}
+
+.page-content td {
+  @apply p-2;
+}
+
+.page-content tr {
+  @apply border-b last:border-b-0 first:bg-gray-100 first:font-semibold;
+}
+
+.page-content a {
+  @apply text-primary hover:underline;
+}
