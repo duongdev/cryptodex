@@ -16,7 +16,8 @@ import { CryptoDataTable } from './crypto-table/crypto-table'
 
 export type RealtimeCryptoWrapperProps = {
   initialCryptos: CryptoData[]
-  top: number
+  from?: number
+  to?: number
   getCryptoData: () => Promise<CryptoData[]>
   adBanners?: MonetizationAdBannerComponent[]
   exchanges?: ExchangeListResponseDataItem[]
@@ -24,7 +25,8 @@ export type RealtimeCryptoWrapperProps = {
 
 export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
   initialCryptos,
-  top,
+  from = 1,
+  to = 100,
   getCryptoData,
   adBanners = [],
   exchanges = [],
@@ -32,7 +34,7 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
   const [cryptos, setCryptos] = useState<CryptoData[]>(initialCryptos)
   const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now())
 
-  const topCryptos = cryptos.slice(Math.max(0, top - 100), top)
+  const topCryptos = cryptos.slice(from - 1, to)
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -60,11 +62,11 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
       />
       <CryptoBubbles
         banners={bubbleBanners}
-        className="h-[calc(100dvh-56px)] bg-slate-900"
+        className="h-[calc(100dvh-60px)] bg-slate-900 md:h-[calc(100dvh-56px)]"
         cryptos={topCryptos}
       />
       <div
-        className="container -mt-10 flex max-w-screen-2xl flex-col gap-4 px-2 pb-8 pt-16 md:px-8"
+        className="container flex max-w-screen-2xl flex-col gap-4 px-2 pb-8 pt-16 md:-mt-10 md:px-8"
         id="table-wrapper"
       >
         {belowBubblesBanners.length > 0 && (

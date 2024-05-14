@@ -9,11 +9,13 @@ import HC_more from 'highcharts/highcharts-more'
 import type { HighchartsReactRefObject } from 'highcharts-react-official'
 import HighchartsReact from 'highcharts-react-official'
 import { useAtom } from 'jotai'
+import { ChevronsDown, Filter } from 'lucide-react'
 import numeral from 'numeral'
-import { useWindowSize, useMeasure } from 'react-use'
+import { useWindowSize, useMeasure, useMedia } from 'react-use'
 
 import { exchangeFilterAtom, performanceOptionAtom } from '@/atoms/crypto'
 import { useTrackBannerClick } from '@/components/ad-banner'
+import { Button } from '@/components/ui/button'
 import type { MonetizationAdBannerComponent } from '@/lib/api/strapi'
 import {
   BUBBLE_OPTIONS,
@@ -21,8 +23,14 @@ import {
   PERFORMANCE_OPTIONS,
 } from '@/lib/constants'
 import { logger } from '@/lib/logger'
+import { cn } from '@/lib/utils'
 
 import type { ANY, CryptoData } from '../../lib/types'
+
+import { exchangeOptions } from './crypto-table/table-toolbar'
+import { ExchangeFilter } from './exchange-filter'
+import { PerformanceSelect } from './performance-select'
+import { TopSelect } from './top-select'
 
 if (typeof Highcharts === 'object') {
   HC_more(Highcharts)
@@ -39,6 +47,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
   banners = [],
   className,
 }) => {
+  const isMobile = useMedia('(max-width: 768px)')
   const trackBannerClick = useTrackBannerClick()
   const chartRef = useRef<HighchartsReactRefObject>(null)
   const [selectedExchanges] = useAtom(exchangeFilterAtom)
@@ -155,14 +164,12 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
     },
     plotOptions: {
       packedbubble: {
-        draggable: true,
+        draggable: !isMobile,
         cursor: 'pointer',
-        animation: !true,
+        allowPointSelect: !isMobile,
+        animation: false,
         minSize,
         maxSize,
-        // sizeBy: 'size',
-        // zMin: 0,
-        // zMax: 100,
         layoutAlgorithm: BUBBLE_OPTIONS.layoutAlgorithm,
         events: {
           click(e) {
@@ -285,13 +292,36 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
   }, [performanceOption])
 
   return (
-    <div className={className} ref={ref}>
+    <div className={cn('flex flex-col', className)} ref={ref}>
       <HighchartsReact
-        containerProps={{ style: { height: '100%' } }}
+        containerProps={{ style: { flex: 1 } }}
         highcharts={Highcharts}
         options={options}
         ref={chartRef}
       />
+      <div className="bg-background border-b pt-2 md:hidden">
+        <div className="flex items-center justify-center gap-2">
+          <PerformanceSelect />
+          <TopSelect />
+          <ExchangeFilter
+            icon={<Filter className="mr-2 h-4 w-4" />}
+            options={exchangeOptions}
+            title="Exchanges"
+          />
+        </div>
+        <div className="flex items-center justify-center">
+          <Button
+            size="icon"
+            variant={null}
+            onClick={() => {
+              const tableEl = document.getElementById('table-wrapper')
+              tableEl?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }}
+          >
+            <ChevronsDown className="animate-bounce" />
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

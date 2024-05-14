@@ -14,7 +14,7 @@ import { TopSelect } from './_components/top-select'
 export const dynamic = 'force-dynamic'
 
 export default async function Home({
-  searchParams: { top = '100' },
+  searchParams: { top = '1-100' },
 }: {
   searchParams: { top?: string }
 }) {
@@ -39,11 +39,10 @@ export default async function Home({
   return (
     <div className="bg-background relative flex min-h-screen flex-col">
       <Header headerNavItems={headerNavItems}>
-        <div className="flex flex-1 items-center gap-2">
-          <PerformanceSelect className="hidden lg:block" />
+        <div className="hidden flex-1 items-center gap-2 md:flex">
+          <PerformanceSelect />
           <TopSelect />
           <ExchangeFilter
-            className="hidden lg:flex"
             icon={<Filter className="mr-2 h-4 w-4" />}
             options={exchangeOptions}
             title="Exchanges"
@@ -53,10 +52,11 @@ export default async function Home({
       <RealtimeCryptoWrapper
         adBanners={adBanners}
         exchanges={exchanges}
+        from={parseInt(top.split('-')[0], 10)}
         // eslint-disable-next-line react/jsx-no-bind
         getCryptoData={handleGetCryptoData}
         initialCryptos={initialCryptos}
-        top={parseInt(top, 10)}
+        to={parseInt(top.split('-')[1], 10)}
       />
     </div>
   )

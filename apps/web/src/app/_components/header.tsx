@@ -19,7 +19,10 @@ export const Header: FC<HeaderProps> = async ({
   return (
     <header className="border-border/40 bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
       <div className="container flex h-14 max-w-screen-2xl items-center px-2 md:px-8">
-        <Link className="mr-4 flex shrink-0 items-center md:flex" href="/">
+        <Link
+          className="mr-4 flex shrink-0 items-center brightness-200 filter md:flex md:filter-none"
+          href="/"
+        >
           <Image
             alt="Logo"
             className="cursor-pointer"
@@ -27,7 +30,7 @@ export const Header: FC<HeaderProps> = async ({
             src="/images/logo/logo-base-256x256.png"
             width={32}
           />
-          <div className="text-primary ml-1 hidden text-lg font-semibold md:block">
+          <div className="text-primary ml-1 text-lg font-semibold">
             <b>Harga</b>Crypto
           </div>
         </Link>
