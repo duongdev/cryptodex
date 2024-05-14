@@ -3,6 +3,7 @@
 import type { FC } from 'react'
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useMedia } from 'react-use'
 
 import {
   Select,
@@ -13,11 +14,33 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+const generateTopItems = (
+  step: number,
+): {
+  value: string
+  label: string
+}[] => {
+  const items = [
+    {
+      value: `1-${step}`,
+      label: `Top ${step.toString()}`,
+    },
+  ]
+  for (let i = step * 2; i <= 1000; i += step) {
+    items.push({
+      value: `${i - step + 1}-${i}`,
+      label: `${i - step + 1} – ${i}`,
+    })
+  }
+  return items
+}
+
 export const TopSelect: FC = () => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const top = searchParams.get('top') || '100'
+  const isMobile = useMedia('(max-width: 768px)')
+  const top = searchParams.get('top') || (isMobile ? '1-50' : '1-100')
 
   const handleChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString())
@@ -27,21 +50,16 @@ export const TopSelect: FC = () => {
 
   return (
     <Select value={top} onValueChange={handleChange}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select a fruit" />
+      <SelectTrigger className="w-[120px]">
+        <SelectValue />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectItem value="100">Top 100</SelectItem>
-          <SelectItem value="200">101 – 200</SelectItem>
-          <SelectItem value="300">201 – 300</SelectItem>
-          <SelectItem value="400">301 – 400</SelectItem>
-          <SelectItem value="500">401 – 500</SelectItem>
-          <SelectItem value="600">501 – 600</SelectItem>
-          <SelectItem value="700">601 – 700</SelectItem>
-          <SelectItem value="800">701 – 800</SelectItem>
-          <SelectItem value="900">801 – 900</SelectItem>
-          <SelectItem value="1000">901 – 1000</SelectItem>
+          {generateTopItems(isMobile ? 50 : 100).map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
     </Select>

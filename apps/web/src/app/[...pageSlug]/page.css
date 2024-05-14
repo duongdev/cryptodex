@@ -1,25 +1,25 @@
 .page-content h1 {
-  @apply text-2xl font-semibold pt-4;
+  @apply pt-4 text-2xl font-semibold;
 }
 
 .page-content h2 {
-  @apply text-xl font-semibold pt-4;
+  @apply pt-4 text-xl font-semibold;
 }
 
 .page-content ul {
-  @apply list-disc list-outside space-y-1 ml-4 md:ml-6;
+  @apply ml-4 list-outside list-disc space-y-1 md:ml-6;
 }
 
 .page-content figure.table {
-  @apply w-full block overflow-auto border rounded-lg;
+  @apply block w-full overflow-auto rounded-lg border;
 }
 
 .page-content table {
-  @apply w-full border-collapse table-auto;
+  @apply w-full table-auto border-collapse;
 }
 
 .page-content th {
-  @apply bg-gray-200 text-left font-semibold p-2;
+  @apply bg-gray-200 p-2 text-left font-semibold dark:bg-gray-800;
 }
 
 .page-content td {
@@ -27,7 +27,7 @@
 }
 
 .page-content tr {
-  @apply border-b last:border-b-0 first:bg-gray-100 first:font-semibold;
+  @apply border-b first:bg-gray-100 first:font-semibold last:border-b-0 dark:first:bg-gray-800;
 }
 
 .page-content a {
