@@ -39,8 +39,8 @@ export const TopSelect: FC = () => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const top = searchParams.get('top') || '100'
   const isMobile = useMedia('(max-width: 768px)')
+  const top = searchParams.get('top') || (isMobile ? '1-50' : '1-100')
 
   const handleChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString())

@@ -14,7 +14,7 @@ import { TopSelect } from './_components/top-select'
 export const dynamic = 'force-dynamic'
 
 export default async function Home({
-  searchParams: { top = '1-100' },
+  searchParams: { top },
 }: {
   searchParams: { top?: string }
 }) {
@@ -52,11 +52,11 @@ export default async function Home({
       <RealtimeCryptoWrapper
         adBanners={adBanners}
         exchanges={exchanges}
-        from={parseInt(top.split('-')[0], 10)}
+        from={parseInt(top?.split('-')?.[0] ?? '1', 10)}
         // eslint-disable-next-line react/jsx-no-bind
         getCryptoData={handleGetCryptoData}
         initialCryptos={initialCryptos}
-        to={parseInt(top.split('-')[1], 10)}
+        to={parseInt(top?.split('-')?.[1] ?? '50', 10)}
       />
     </div>
   )

@@ -100,8 +100,8 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
     }))
 
     // Constants
-    const minSize = 30 // Min size is 30 pixels
-    const maxSizeMultiplier = 3.5 // Max size is 3.5 times the min size
+    const minSize = isMobile ? 28 : 30 // Min size is 30 pixels
+    const maxSizeMultiplier = isMobile ? 2.5 : 3.5 // Max size is 3.5 times the min size
     const chartArea = Math.min(width, height) ** 2 * 0.9
 
     // Normalize values: Convert each value to a scale where the smallest value is assigned the minSize,
@@ -144,7 +144,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
     })
 
     return sizes
-  }, [height, width, cryptos, performanceKey])
+  }, [cryptos, isMobile, width, height, performanceKey])
 
   const minSize = Math.min(...Object.values(bubbleSizes))
   const maxSize = Math.max(...Object.values(bubbleSizes))
@@ -200,7 +200,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
             //       (point.value / 100) * (maxSize - minSize) + minSize,
             //     ),
             //   ) * 0.2
-            const size = 0.2 * point.value
+            const size = (isMobile ? 0.175 : 0.2) * point.value
             return `
               <div style="text-align: center; width: 100%; display: grid; place-items: center; margin-bottom: 4px">
                 <img src="${point.image}" width="${size + 10}" height="${size + 10}"/>

@@ -41,7 +41,7 @@ export const TableToolbar: FC<TableToolbarProps> = ({
   const [selectedCurrency, onSelectedCurrencyChange] = useAtom(currencyAtom)
 
   return (
-    <div className={cn('flex gap-3', className)}>
+    <div className={cn('flex gap-2 md:gap-3', className)}>
       <div className="relative flex max-w-72 flex-1 shrink-0 items-center">
         <SearchIcon
           className="text-muted-foreground absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 transform"

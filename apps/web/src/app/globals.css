@@ -74,3 +74,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media screen and (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
