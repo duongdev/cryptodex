@@ -52,11 +52,11 @@ export default async function Home({
       <RealtimeCryptoWrapper
         adBanners={adBanners}
         exchanges={exchanges}
-        from={parseInt(top?.split('-')?.[0] ?? '1', 10)}
+        from={top ? parseInt(top?.split('-')?.[0] ?? '1', 10) : undefined}
         // eslint-disable-next-line react/jsx-no-bind
         getCryptoData={handleGetCryptoData}
         initialCryptos={initialCryptos}
-        to={parseInt(top?.split('-')?.[1] ?? '50', 10)}
+        to={top ? parseInt(top?.split('-')?.[1] ?? '50', 10) : undefined}
       />
     </div>
   )

@@ -3,6 +3,8 @@
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
 
+import { useMedia } from 'react-use'
+
 import { AdBanner } from '@/components/ad-banner'
 import { Progress } from '@/components/ui/progress'
 import type { ExchangeListResponseDataItem } from '@/lib/api/strapi'
@@ -26,14 +28,16 @@ export type RealtimeCryptoWrapperProps = {
 export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
   initialCryptos,
   from = 1,
-  to = 100,
+  to: $to,
   getCryptoData,
   adBanners = [],
   exchanges = [],
 }) => {
   const [cryptos, setCryptos] = useState<CryptoData[]>(initialCryptos)
   const [lastUpdatedAt, setLastUpdatedAt] = useState(Date.now())
+  const isMobile = useMedia('(max-width: 768px)')
 
+  const to = $to ?? (isMobile ? 50 : 100)
   const topCryptos = cryptos.slice(from - 1, to)
 
   useEffect(() => {
