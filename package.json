@@ -9,14 +9,15 @@
     "packages/*"
   ],
   "scripts": {
-    "cms:build": "turbo run build --filter={apps/cms}",
-    "cms:dev": "turbo run dev --filter={apps/cms}",
-    "cms:start": "turbo run start --filter={apps/cms}",
-    "web:dev": "turbo run dev --filter={apps/web}",
-    "clean": "rm -rf node_modules {packages,apps}/*/node_modules bun.lockb {packages,apps}/*/bun.lockb"
+    "cms:build": "yarn workspace @cryptodex/cms run build",
+    "cms:dev": "yarn workspace @cryptodex/cms run dev",
+    "cms:start": "yarn workspace @cryptodex/cms run start",
+    "web:dev": "yarn workspace @cryptodex/web run dev",
+    "clean": "rm -rf node_modules {packages,apps}/*/node_modules yarn.lock {packages,apps}/*/yarn.lock"
   },
   "devDependencies": {
-    "@cryptodex/eslint-config": "workspace:*",
+    "@cryptodex/eslint-config": "0.0.1",
+    "ajv": "^8.13.0",
     "typescript": "5"
   },
   "dependencies": {
