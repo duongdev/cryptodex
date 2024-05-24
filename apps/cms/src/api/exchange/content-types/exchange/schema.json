@@ -49,10 +49,10 @@
       "repeatable": false,
       "component": "common.link"
     },
-    "note_pros": {
+    "content_en": {
       "type": "blocks"
     },
-    "note_cons": {
+    "content_ind": {
       "type": "blocks"
     }
   }
