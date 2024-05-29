@@ -30,6 +30,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
+    "form-data": "^4.0.0",
     "fuse.js": "^7.0.0",
     "highcharts": "^11.4.1",
     "highcharts-react-official": "^3.2.1",
