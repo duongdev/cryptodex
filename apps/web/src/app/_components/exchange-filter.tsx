@@ -23,16 +23,13 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
-import type { Exchange } from '@/lib/exchanges'
 import { cn } from '@/lib/utils'
+import { ExchangeListResponseDataItem } from '@/lib/api/generated'
+import { getExchangeOptions } from '@/components/exchange-options'
 
 interface ExchangeFilterProps {
   title?: string
-  options: {
-    label: string
-    value: Exchange
-    icon?: React.ComponentType<{ className?: string }>
-  }[]
+  exchanges: ExchangeListResponseDataItem[]
   className?: string
   disabled?: boolean
   icon?: React.ReactNode | false
@@ -40,7 +37,8 @@ interface ExchangeFilterProps {
 
 export function ExchangeFilter({
   title,
-  options,
+  exchanges,
+  // options,
   // selected = [],
   // onSelect,
   className,
@@ -48,6 +46,7 @@ export function ExchangeFilter({
   icon,
 }: ExchangeFilterProps) {
   const [selected, onSelect] = useAtom(exchangeFilterAtom)
+  const options = getExchangeOptions(exchanges)
 
   return (
     <Popover>
@@ -80,7 +79,6 @@ export function ExchangeFilter({
                   options
                     .filter((option) => selected.includes(option.value))
                     .map(({ icon: Icon, value }) => (
-                      // @ts-expect-error
                       <Icon
                         key={value as string}
                         className="h-4 w-4 shrink-0"

@@ -44,7 +44,7 @@ const DEBOUNCE_DELAY = 300
 interface CryptoDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  exchanges?: ExchangeListResponseDataItem[]
+  exchanges: ExchangeListResponseDataItem[]
 }
 
 export function CryptoDataTable<TData, TValue>({
@@ -137,6 +137,7 @@ export function CryptoDataTable<TData, TValue>({
       <TableToolbar
         searchText={searchText}
         onSearchTextChange={setSearchText}
+        exchanges={exchanges}
       />
       <div className="rounded-md border">
         <Table>

@@ -5,7 +5,6 @@ import { useRef } from 'react'
 
 import { useAtom } from 'jotai'
 import { Filter, SearchIcon, X } from 'lucide-react'
-import Image from 'next/image'
 
 import { currencyAtom } from '@/atoms/crypto'
 import { Button } from '@/components/ui/button'
@@ -19,16 +18,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import type { Exchange } from '@/lib/exchanges'
-import { EXCHANGE_CONFIG } from '@/lib/exchanges'
 import type { ANY } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 import { ExchangeFilter } from '../exchange-filter'
+import { ExchangeListResponseDataItem } from '@/lib/api/generated'
 
 export type TableToolbarProps = {
   className?: string
   searchText: string
+  exchanges: ExchangeListResponseDataItem[]
   onSearchTextChange: (text: string) => void
 }
 
@@ -36,6 +35,7 @@ export const TableToolbar: FC<TableToolbarProps> = ({
   className,
   onSearchTextChange,
   searchText,
+  exchanges,
 }) => {
   const searchInputRef = useRef<HTMLInputElement>(null)
   const [selectedCurrency, onSelectedCurrencyChange] = useAtom(currencyAtom)
@@ -73,7 +73,7 @@ export const TableToolbar: FC<TableToolbarProps> = ({
         <ExchangeFilter
           disabled={!true}
           icon={<Filter className="mr-2 h-4 w-4" />}
-          options={exchangeOptions}
+          exchanges={exchanges}
           title="Exchanges"
         />
       </div>
@@ -97,20 +97,3 @@ export const TableToolbar: FC<TableToolbarProps> = ({
     </div>
   )
 }
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const exchangeOptions = Object.entries(EXCHANGE_CONFIG).map(
-  ([key, value]) => ({
-    value: key as Exchange,
-    label: value.name,
-    icon: ({ className }: { className?: string }) => (
-      <Image
-        alt={value.name}
-        className={cn('overflow-hidden rounded-md', className)}
-        height={16}
-        src={value.logo}
-        width={16}
-      />
-    ),
-  }),
-)

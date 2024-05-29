@@ -1,15 +1,14 @@
 import { Filter } from 'lucide-react'
 
 import { getHeaderNavItems, getSiteConfig } from '@/lib/api/common'
-import { strapi } from '@/lib/api/strapi'
 import { getCryptoData } from '@/services/cryptos'
 
-import { exchangeOptions } from './_components/crypto-table/table-toolbar'
 import { ExchangeFilter } from './_components/exchange-filter'
 import { Header } from './_components/header'
 import { PerformanceSelect } from './_components/performance-select'
 import { RealtimeCryptoWrapper } from './_components/realtime-crypto-wrapper'
 import { TopSelect } from './_components/top-select'
+import { getExchanges } from '@/lib/api/exchange'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,12 +28,7 @@ export default async function Home({
   const siteConfig = await getSiteConfig()
   const headerNavItems = await getHeaderNavItems(siteConfig)
   const adBanners = siteConfig.data?.attributes?.ad_banners ?? []
-  const exchanges =
-    (
-      await strapi.exchange.getExchanges({
-        populate: 'deep,4',
-      })
-    ).data ?? []
+  const exchanges = await getExchanges()
 
   return (
     <div className="bg-background relative flex min-h-screen flex-col">
@@ -44,7 +38,7 @@ export default async function Home({
           <TopSelect />
           <ExchangeFilter
             icon={<Filter className="mr-2 h-4 w-4" />}
-            options={exchangeOptions}
+            exchanges={exchanges}
             title="Exchanges"
           />
         </div>

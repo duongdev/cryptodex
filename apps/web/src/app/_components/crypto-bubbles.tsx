@@ -16,7 +16,7 @@ import { useWindowSize, useMeasure, useMedia } from 'react-use'
 import { exchangeFilterAtom, performanceOptionAtom } from '@/atoms/crypto'
 import { useTrackBannerClick } from '@/components/ad-banner'
 import { Button } from '@/components/ui/button'
-import type { MonetizationAdBannerComponent } from '@/lib/api/strapi'
+import type { ExchangeListResponseDataItem, MonetizationAdBannerComponent } from '@/lib/api/strapi'
 import {
   BUBBLE_OPTIONS,
   DEFAULT_PERFORMANCE_OPTION,
@@ -27,7 +27,6 @@ import { cn } from '@/lib/utils'
 
 import type { ANY, CryptoData } from '../../lib/types'
 
-import { exchangeOptions } from './crypto-table/table-toolbar'
 import { ExchangeFilter } from './exchange-filter'
 import { PerformanceSelect } from './performance-select'
 import { TopSelect } from './top-select'
@@ -39,12 +38,14 @@ if (typeof Highcharts === 'object') {
 export type CryptoBubblesProps = {
   cryptos: CryptoData[]
   banners?: MonetizationAdBannerComponent[]
+  exchanges: ExchangeListResponseDataItem[]
   className?: string
 }
 
 export const CryptoBubbles: FC<CryptoBubblesProps> = ({
   cryptos,
   banners = [],
+  exchanges,
   className,
 }) => {
   const isMobile = useMedia('(max-width: 768px)')
@@ -305,7 +306,7 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
           <TopSelect />
           <ExchangeFilter
             icon={<Filter className="mr-2 h-4 w-4" />}
-            options={exchangeOptions}
+            exchanges={exchanges}
             title="Exchanges"
           />
         </div>

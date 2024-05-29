@@ -68,6 +68,7 @@ export const RealtimeCryptoWrapper: FC<RealtimeCryptoWrapperProps> = ({
         banners={bubbleBanners}
         className="h-[calc(100dvh-60px)] bg-slate-900 md:h-[calc(100dvh-56px)]"
         cryptos={topCryptos}
+        exchanges={exchanges}
       />
       <div
         className="container flex max-w-screen-2xl flex-col gap-4 px-2 pb-8 pt-16 md:-mt-10 md:px-8"
