@@ -9,14 +9,14 @@
     "packages/*"
   ],
   "scripts": {
-    "cms:build": "yarn workspace @cryptodex/cms run build",
-    "cms:dev": "yarn workspace @cryptodex/cms run dev",
-    "cms:start": "yarn workspace @cryptodex/cms run start",
-    "web:dev": "yarn workspace @cryptodex/web run dev",
+    "cms:build": "pnpm --filter \"@cryptodex/cms\" run build",
+    "cms:dev": "pnpm --filter \"@cryptodex/cms\" run dev",
+    "cms:start": "pnpm --filter \"@cryptodex/cms\" run start",
+    "web:dev": "pnpm --filter \"@cryptodex/web\" run dev",
     "clean": "rm -rf node_modules {packages,apps}/*/node_modules yarn.lock {packages,apps}/*/yarn.lock"
   },
   "devDependencies": {
-    "@cryptodex/eslint-config": "0.0.1",
+    "@cryptodex/eslint-config": "workspace:*",
     "ajv": "^8.13.0",
     "typescript": "5"
   },
