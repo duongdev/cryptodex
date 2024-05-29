@@ -4,9 +4,9 @@ import { kv } from '@vercel/kv'
 import { orderBy } from 'lodash-es'
 
 import { CRYPTO_DATA_URL, REFRESH_INTERVAL } from '@/lib/constants'
-import { EXCHANGE_CONFIG } from '@/lib/exchanges'
 import { logger } from '@/lib/logger'
 import type { ANY, CryptoData } from '@/lib/types'
+import { getExchangeConfig } from '@/lib/api/exchange'
 
 const CACHE_SECONDS = REFRESH_INTERVAL / 1000
 
@@ -33,10 +33,12 @@ export async function getCryptoData(): Promise<CryptoData[]> {
     }
   }
 
+  const exchangeConfig = await getExchangeConfig()
+
   return cryptos.map((crypto) => {
     const exchanges: ANY[] = []
 
-    Object.entries(EXCHANGE_CONFIG).forEach(([exchangeId, exchange]) => {
+    Object.entries(exchangeConfig).forEach(([exchangeId, exchange]) => {
       if (
         (exchange.coins as ANY as string[]).includes(
           crypto.symbol.toUpperCase(),
