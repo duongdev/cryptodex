@@ -1,6 +1,7 @@
 import { Filter } from 'lucide-react'
 
 import { getHeaderNavItems, getSiteConfig } from '@/lib/api/common'
+import { getExchanges } from '@/lib/api/exchange'
 import { getCryptoData } from '@/services/cryptos'
 
 import { ExchangeFilter } from './_components/exchange-filter'
@@ -8,7 +9,6 @@ import { Header } from './_components/header'
 import { PerformanceSelect } from './_components/performance-select'
 import { RealtimeCryptoWrapper } from './_components/realtime-crypto-wrapper'
 import { TopSelect } from './_components/top-select'
-import { getExchanges } from '@/lib/api/exchange'
 
 export const dynamic = 'force-dynamic'
 
@@ -37,8 +37,8 @@ export default async function Home({
           <PerformanceSelect />
           <TopSelect />
           <ExchangeFilter
-            icon={<Filter className="mr-2 h-4 w-4" />}
             exchanges={exchanges}
+            icon={<Filter className="mr-2 h-4 w-4" />}
             title="Exchanges"
           />
         </div>

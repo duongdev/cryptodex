@@ -16,7 +16,10 @@ import { useWindowSize, useMeasure, useMedia } from 'react-use'
 import { exchangeFilterAtom, performanceOptionAtom } from '@/atoms/crypto'
 import { useTrackBannerClick } from '@/components/ad-banner'
 import { Button } from '@/components/ui/button'
-import type { ExchangeListResponseDataItem, MonetizationAdBannerComponent } from '@/lib/api/strapi'
+import type {
+  ExchangeListResponseDataItem,
+  MonetizationAdBannerComponent,
+} from '@/lib/api/strapi'
 import {
   BUBBLE_OPTIONS,
   DEFAULT_PERFORMANCE_OPTION,
@@ -305,8 +308,8 @@ export const CryptoBubbles: FC<CryptoBubblesProps> = ({
           <PerformanceSelect />
           <TopSelect />
           <ExchangeFilter
-            icon={<Filter className="mr-2 h-4 w-4" />}
             exchanges={exchanges}
+            icon={<Filter className="mr-2 h-4 w-4" />}
             title="Exchanges"
           />
         </div>

@@ -18,11 +18,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import type { ExchangeListResponseDataItem } from '@/lib/api/generated'
 import type { ANY } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 import { ExchangeFilter } from '../exchange-filter'
-import { ExchangeListResponseDataItem } from '@/lib/api/generated'
 
 export type TableToolbarProps = {
   className?: string
@@ -72,8 +72,8 @@ export const TableToolbar: FC<TableToolbarProps> = ({
       <div>
         <ExchangeFilter
           disabled={!true}
-          icon={<Filter className="mr-2 h-4 w-4" />}
           exchanges={exchanges}
+          icon={<Filter className="mr-2 h-4 w-4" />}
           title="Exchanges"
         />
       </div>

@@ -1,5 +1,6 @@
-import { keyBy } from "lodash-es"
-import { strapi } from "./strapi"
+import { keyBy } from 'lodash-es'
+
+import { strapi } from './strapi'
 
 export async function getExchanges() {
   const { data = [] } = await strapi.exchange.getExchanges({
@@ -12,5 +13,8 @@ export async function getExchanges() {
 export async function getExchangeConfig() {
   const exchanges = await getExchanges()
 
-  return keyBy(exchanges.map((exchange) => exchange.attributes!), 'slug')
+  return keyBy(
+    exchanges.map((exchange) => exchange.attributes!),
+    'slug',
+  )
 }

@@ -3,10 +3,10 @@
 import { kv } from '@vercel/kv'
 import { orderBy } from 'lodash-es'
 
+import { getExchangeConfig } from '@/lib/api/exchange'
 import { CRYPTO_DATA_URL, REFRESH_INTERVAL } from '@/lib/constants'
 import { logger } from '@/lib/logger'
 import type { ANY, CryptoData } from '@/lib/types'
-import { getExchangeConfig } from '@/lib/api/exchange'
 
 const CACHE_SECONDS = REFRESH_INTERVAL / 1000
 

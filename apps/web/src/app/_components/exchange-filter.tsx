@@ -6,6 +6,7 @@ import { useAtom } from 'jotai'
 import { CheckIcon, PlusCircleIcon } from 'lucide-react'
 
 import { exchangeFilterAtom } from '@/atoms/crypto'
+import { getExchangeOptions } from '@/components/exchange-options'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -23,9 +24,8 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
+import type { ExchangeListResponseDataItem } from '@/lib/api/generated'
 import { cn } from '@/lib/utils'
-import { ExchangeListResponseDataItem } from '@/lib/api/generated'
-import { getExchangeOptions } from '@/components/exchange-options'
 
 interface ExchangeFilterProps {
   title?: string

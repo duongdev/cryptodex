@@ -135,9 +135,9 @@ export function CryptoDataTable<TData, TValue>({
   return (
     <>
       <TableToolbar
+        exchanges={exchanges}
         searchText={searchText}
         onSearchTextChange={setSearchText}
-        exchanges={exchanges}
       />
       <div className="rounded-md border">
         <Table>
