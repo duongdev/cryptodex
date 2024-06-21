@@ -51,6 +51,7 @@
     "zod": "^3.23.6"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.0",
     "@cryptodex/eslint-config": "workspace:*",
     "@next/eslint-plugin-next": "^14.2.3",
     "@types/lodash-es": "^4.17.12",
