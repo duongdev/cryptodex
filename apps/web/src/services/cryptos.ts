@@ -10,7 +10,7 @@ import type { ANY, CryptoData } from '@/lib/types'
 
 const CACHE_SECONDS = REFRESH_INTERVAL / 1000
 
-export async function getCryptoData(): Promise<CryptoData[]> {
+async function fetchCryptoData() {
   let cryptos = await kv.get<CryptoData[]>('cryptos_data')
 
   if (!cryptos) {
@@ -33,7 +33,14 @@ export async function getCryptoData(): Promise<CryptoData[]> {
     }
   }
 
-  const exchangeConfig = await getExchangeConfig()
+  return cryptos
+}
+
+export async function getCryptoData(): Promise<CryptoData[]> {
+  const [cryptos, exchangeConfig] = await Promise.all([
+    fetchCryptoData(),
+    getExchangeConfig(),
+  ])
 
   return cryptos.map((crypto) => {
     const exchanges: ANY[] = []

@@ -10,25 +10,27 @@ import { PerformanceSelect } from './_components/performance-select'
 import { RealtimeCryptoWrapper } from './_components/realtime-crypto-wrapper'
 import { TopSelect } from './_components/top-select'
 
-export const dynamic = 'force-dynamic'
+// export const dynamic = 'force-dynamic'
 
 export default async function Home({
   searchParams: { top },
 }: {
   searchParams: { top?: string }
 }) {
-  const initialCryptos = await getCryptoData()
-
   async function handleGetCryptoData() {
     'use server'
 
     return getCryptoData()
   }
 
-  const siteConfig = await getSiteConfig()
+  const [initialCryptos, siteConfig, exchanges] = await Promise.all([
+    getCryptoData(),
+    getSiteConfig(),
+    getExchanges(),
+  ])
+
   const headerNavItems = await getHeaderNavItems(siteConfig)
   const adBanners = siteConfig.data?.attributes?.ad_banners ?? []
-  const exchanges = await getExchanges()
 
   return (
     <div className="bg-background relative flex min-h-screen flex-col">
